@@ -1,0 +1,31 @@
+<!-- Address Form -->
+<section class="container">
+  <div class="row justify-content-center mt-4">
+    <form [formGroup]="addressForm!" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-control" formControlName="name" placeholder="Enter your full name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Address</label>
+          <input type="text" class="form-control" formControlName="address" placeholder="Enter your address">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">City</label>
+          <input type="text" class="form-control" formControlName="city" placeholder="Enter your city">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">State</label>
+          <input type="text" class="form-control" formControlName="state" placeholder="Enter your state">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Zip Code</label>
+          <input type="number" class="form-control" formControlName="zip" placeholder="Enter your zip code">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Phone Number</label>
+          <input type="number" class="form-control" formControlName="phonenumber" placeholder="Enter your Phone number">
+        </div>
+    </form>
+  </div>
+</section>

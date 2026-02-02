@@ -1,0 +1,25 @@
+.social-icons a.social {
+  transition: color 0.3s ease, transform 0.2s ease;
+  color: inherit; /* Keep original icon color */
+}
+
+.social-icons a.social:hover {
+  transform: scale(1.15);
+}
+
+/* Custom colors on hover */
+.social-icons a.facebook:hover {
+  color: #0251b8; /* deep blue */
+}
+
+.social-icons a.twitter:hover {
+  color: #73c9ff; /* sky blue */
+}
+
+.social-icons a.google:hover {
+  color: #11ff2c; /* bright yellow */
+}
+
+.social-icons a.instagram:hover {
+  color: #d30046; /* vibrant pink/red */
+}

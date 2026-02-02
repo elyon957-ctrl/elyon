@@ -1,0 +1,83 @@
+<div class="shop-container">
+  <!-- LEFT FILTER -->
+  <aside class="filter-panel">
+    <h3>Filters</h3>
+
+    <!-- Price -->
+    <!-- <div class="filter-group">
+      <h4>Price</h4>
+      <label><input  type="radio" name="price" value="0" [(ngModel)]="selectedPrice"> ₹</label>
+      <label><input  type="radio" name="price" value="499" [(ngModel)]="selectedPrice"> ₹0 – ₹499</label>
+      <label><input type="radio" name="price" value="999" [(ngModel)]="selectedPrice"> ₹500 – ₹999</label>
+      <label><input type="radio" name="price" value="2000" [(ngModel)]="selectedPrice"> ₹1000+</label>
+    </div> -->
+    <!-- Color -->
+    <div class="filter-group">
+
+      <h4>Color</h4>
+      <label><input type="radio" name="color" value="All" [(ngModel)]="selectedColor">All</label>
+      <label><input type="radio" name="color" value="Black" [(ngModel)]="selectedColor">Black</label>
+      <label><input type="radio" name="color" value="White" [(ngModel)]="selectedColor">White</label>
+      <label><input type="radio" name="color" value="Blue" [(ngModel)]="selectedColor">Blue</label>
+      <label><input type="radio" name="color" value="Red" [(ngModel)]="selectedColor">Red</label>
+    </div>
+  </aside>
+
+  <!-- RIGHT PRODUCTS -->
+  <section class="product-section">
+    <h3>{{Categories.type}} </h3>
+    <div class="product-grid">
+      @for(item of products;track $index){
+        @if(Categories.type === item.category){
+          @if(selectedColor === item.color){
+            <div class="product-card" (click)="openProduct(item)">
+              @if(item.discount){
+                <span class="badge text-bg-success top-0 start-0 m-2">
+                  {{ item.discount }}% OFF
+                </span>
+              }
+              <img src="{{item.image}}" alt="product">
+              <h5>{{ item.name }}</h5>
+              <span class="fw-semibold">₹{{ item.selectedPrice }}</span>
+              <small class="text-muted text-decoration-line-through ms-1">
+                ₹{{ item.selectedActualPrice }}
+              </small>
+            </div>
+          }
+          @if(!selectedColor){
+            <div class="product-card" (click)="openProduct(item)">
+              @if(item.discount){
+                <span class="badge text-bg-success top-0 start-0 m-2">
+                  {{ item.discount }}% OFF
+                </span>
+              }
+              <img src="{{item.image}}" alt="product">
+              <h5>{{ item.name }}</h5>
+              <span class="fw-semibold">₹{{ item.selectedPrice }}</span>
+              <small class="text-muted text-decoration-line-through ms-1">
+                ₹{{ item.selectedActualPrice }}
+              </small>
+            </div>
+          }
+          @if(selectedColor==="All"){
+            <div class="product-card" (click)="openProduct(item)">
+              @if(item.discount){
+                <span class="badge text-bg-success top-0 start-0 m-2">
+                  {{ item.discount }}% OFF
+                </span>
+              }
+              <img src="{{item.image}}" alt="product">
+              <h5>{{ item.name }}</h5>
+              <span class="fw-semibold">₹{{ item.selectedPrice }}</span>
+              @if(item.selectedActualPrice){
+                <small class="text-muted text-decoration-line-through ms-1">
+                  ₹{{ item.selectedActualPrice }}
+                </small>
+              }
+            </div>
+          }
+        }
+      }
+    </div>
+  </section>
+</div>

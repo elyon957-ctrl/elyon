@@ -1,0 +1,408 @@
+<div class="modal fade" id="authModal" tabindex="-1" style="margin-top: 40px;">
+<div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button
+     type="button"
+     class="custom-close-btn"
+     (click)="close()"
+     aria-label="Close"
+   >
+     &times;
+   </button>
+
+        <!-- LOGIN -->
+         @if(isLogin){
+
+                 <div class="login-container ">
+  <div class="login-wrapper">
+    <!-- Header -->
+    <div class="login-header">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#gradient)" />
+          <path d="M16 8L22 14V24H10V14L16 8Z" fill="white" />
+          <defs>
+            <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+              <stop offset="0%" stop-color="#6366f1" />
+              <stop offset="100%" stop-color="#8b5cf6" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>Fusion</span>
+      </div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to your account to continue</p>
+    </div>
+
+    <!-- Error Message -->
+    @if(errorMessage){
+      <div  class="error-message">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+        </svg>
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Form -->
+    <form (ngSubmit)="login()" class="login-form">
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M2.25 3h13.5c.825 0 1.5.675 1.5 1.5v9c0 .825-.675 1.5-1.5 1.5H2.25c-.825 0-1.5-.675-1.5-1.5v-9c0-.825.675-1.5 1.5-1.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M2.25 4.5l6.75 4.5 6.75-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="you@example.com"
+            class="form-input"
+            autocomplete="email"
+          />
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3.75 8.25v-2.25c0-2.31 1.89-4.2 4.2-4.2h2.1c2.31 0 4.2 1.89 4.2 4.2v2.25m-10.5 0h10.5v8.25c0 .825-.675 1.5-1.5 1.5H5.25c-.825 0-1.5-.675-1.5-1.5v-8.25z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9 12v2.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Enter your password"
+            class="form-input"
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            (click)="togglePasswordVisibility('password')"
+            class="password-toggle"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          >
+          @if(!showPassword){
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M1.5 9s2.25-4.5 7.5-4.5 7.5 4.5 7.5 4.5-2.25 4.5-7.5 4.5-7.5-4.5-7.5-4.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="9" cy="9" r="2.25" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+          }
+          @if(showPassword){
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M3.375 3.375l11.25 11.25M1.5 9c.75 1.5 3.375 4.5 7.5 4.5 2.25 0 4.125-1.125 5.25-2.25m-10.875-6c1.125-1.125 3-2.25 5.25-2.25 4.125 0 6.75 3 7.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          }
+          </button>
+        </div>
+      </div>
+
+      <!-- Remember & Forgot -->
+      <!-- <div class="form-footer">
+        <label class="remember-checkbox">
+          <input type="checkbox"/>
+          <span>Remember me</span>
+        </label> -->
+        <!-- <a routerLink="/forgot-password" class="forgot-link">Forgot password?</a> -->
+      <!-- </div> -->
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="submit-button"
+        [disabled]="isLoading"
+      >
+      @if(!isLoading){
+        <span>Sign In</span>
+      }
+      @if(isLoading){
+        <span class="loading-spinner">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.3" />
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" opacity="1" stroke-dashoffset="-1" class="spinner" />
+          </svg>
+          Signing in...
+        </span>}
+      </button>
+    </form>
+
+    <!-- Sign Up Link -->
+    <!-- <div class="signup-link">
+      <span>Don't have an account?</span>
+      <a (click)="toggleForm()">Sign up</a>
+    </div> -->
+
+    <!-- Divider -->
+    <!-- <div class="divider">
+      <span>Or continue with</span>
+    </div> -->
+
+    <!-- Social Login -->
+    <!-- <div class="social-login">
+      <button type="button" class="social-button google">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+          <path d="M17.64 9.2c0-.82-.14-1.42-.35-2.05H9v3.72h4.84c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z" />
+          <path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-3.16-2.45c-.81.53-1.86 1.05-2.8 1.05-2.13 0-3.95-1.43-4.6-3.36H1.07v2.52C2.56 17.12 5.53 18 9 18z" />
+          <path d="M4.4 10.06c-.09-.53-.16-1.1-.16-1.69 0-.59.07-1.16.16-1.69V3.16H1.07A8.996 8.996 0 000 9c0 1.45.35 2.82.98 4.03l3.85-2.97z" />
+          <path d="M9 3.88c1.88 0 3.13.64 3.85 1.17l2.84-2.76C13.46.89 11.43 0 9 0 5.53 0 2.56.88 1.07 2.36l3.33 2.52c.65-1.93 2.47-3.36 4.6-3.36z" />
+        </svg>
+        Google
+      </button>
+      <button type="button" class="social-button github">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+          <path d="M9 0C4.02 0 0 4.02 0 9c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.15-1.1-1.46-1.1-1.46-.88-.6.07-.59.07-.59.97.07 1.48.99 1.48.99.86 1.48 2.27 1.05 2.82.8.09-.62.34-1.05.61-1.29-2.14-.24-4.39-1.07-4.39-4.75 0-1.05.38-1.91 1-2.58-.1-.24-.43-1.24.1-2.59 0 0 .83-.26 2.72 1.01.79-.22 1.64-.33 2.48-.33.84 0 1.69.11 2.48.33 1.88-1.27 2.71-1.01 2.71-1.01.53 1.35.2 2.35.1 2.59.62.68 1 1.53 1 2.58 0 3.69-2.26 4.5-4.41 4.74.35.3.65.9.65 1.81v2.69c0 .26.18.58.69.48C15.13 17.17 18 13.42 18 9 18 4.02 13.98 0 9 0z" />
+        </svg>
+        GitHub
+      </button>
+    </div> -->
+  </div>
+
+  <!-- Right side decoration -->
+  <div class="login-decoration"></div>
+</div>
+
+                
+            }
+        <!-- REGISTER -->
+         @if(!isLogin){
+
+             <div class="signup-container">
+  <div class="signup-wrapper">
+    <!-- Header -->
+    <div class="signup-header">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#gradient)" />
+          <path d="M16 8L22 14V24H10V14L16 8Z" fill="white" />
+          <defs>
+            <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+              <stop offset="0%" stop-color="#6366f1" />
+              <stop offset="100%" stop-color="#8b5cf6" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>Fusion</span>
+      </div>
+      <h1>Create Account</h1>
+      <p>Join us and get started in minutes</p>
+    </div>
+
+    <!-- Error Message -->
+     @if(errorMessage){
+
+       <div class="error-message">
+         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          {{ errorMessage }}
+        </div>
+        
+      }
+    <!-- Form -->
+    <form (ngSubmit)="handleSignup()" class="signup-form">
+        <!-- Name -->
+        <div class="form-group">
+          <label for="name" class="form-label">Name</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <circle cx="9" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.5" />
+              <path d="M2.75 14.75c0-1.72 1.52-3.12 3.38-3.12h5.74c1.86 0 3.38 1.4 3.38 3.12v1.87" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <input
+              id="name"
+              type="text"
+              [(ngModel)]="name"
+              name="name"
+              placeholder="John"
+              class="form-input"
+              autocomplete="given-name"
+            />
+          </div>
+        </div>
+
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M2.25 3h13.5c.825 0 1.5.675 1.5 1.5v9c0 .825-.675 1.5-1.5 1.5H2.25c-.825 0-1.5-.675-1.5-1.5v-9c0-.825.675-1.5 1.5-1.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M2.25 4.5l6.75 4.5 6.75-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="you@example.com"
+            class="form-input"
+            autocomplete="email"
+          />
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3.75 8.25v-2.25c0-2.31 1.89-4.2 4.2-4.2h2.1c2.31 0 4.2 1.89 4.2 4.2v2.25m-10.5 0h10.5v8.25c0 .825-.675 1.5-1.5 1.5H5.25c-.825 0-1.5-.675-1.5-1.5v-8.25z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9 12v2.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="At least 8 characters"
+            class="form-input"
+            autocomplete="new-password"
+          />
+          <button
+            type="button"
+            (click)="togglePasswordVisibility('password')"
+            class="password-toggle"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          >
+          @if(!showPassword){
+            <svg  width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M1.5 9s2.25-4.5 7.5-4.5 7.5 4.5 7.5 4.5-2.25 4.5-7.5 4.5-7.5-4.5-7.5-4.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="9" cy="9" r="2.25" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+          }
+            @if(showPassword){
+
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M3.375 3.375l11.25 11.25M1.5 9c.75 1.5 3.375 4.5 7.5 4.5 2.25 0 4.125-1.125 5.25-2.25m-10.875-6c1.125-1.125 3-2.25 5.25-2.25 4.125 0 6.75 3 7.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            }
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="form-group">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3.75 8.25v-2.25c0-2.31 1.89-4.2 4.2-4.2h2.1c2.31 0 4.2 1.89 4.2 4.2v2.25m-10.5 0h10.5v8.25c0 .825-.675 1.5-1.5 1.5H5.25c-.825 0-1.5-.675-1.5-1.5v-8.25z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9 12v2.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <input
+            id="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm your password"
+            class="form-input"
+            autocomplete="new-password"
+          />
+          <button
+            type="button"
+            (click)="togglePasswordVisibility('confirm')"
+            class="password-toggle"
+            [attr.aria-label]="showConfirmPassword ? 'Hide password' : 'Show password'"
+          >
+          @if(!showConfirmPassword){
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M1.5 9s2.25-4.5 7.5-4.5 7.5 4.5 7.5 4.5-2.25 4.5-7.5 4.5-7.5-4.5-7.5-4.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="9" cy="9" r="2.25" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+          }
+            @if(showConfirmPassword){
+
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M3.375 3.375l11.25 11.25M1.5 9c.75 1.5 3.375 4.5 7.5 4.5 2.25 0 4.125-1.125 5.25-2.25m-10.875-6c1.125-1.125 3-2.25 5.25-2.25 4.125 0 6.75 3 7.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            }
+          </button>
+        </div>
+      </div>
+
+      <!-- Terms & Conditions -->
+      <!-- <label class="terms-checkbox">
+        <input type="checkbox" [(ngModel)]="agreeToTerms" name="agreeToTerms" />
+        <span>I agree to the <a href="#" class="terms-link">Terms and Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a></span>
+      </label> -->
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="submit-button"
+        [disabled]="isLoading"
+      >
+      @if(!isLoading){
+        <span>Create Account</span>
+      }
+      @if(isLoading){
+
+        <span class="loading-spinner">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.3" />
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" opacity="1" stroke-dashoffset="-1" class="spinner" />
+          </svg>
+          Creating account...
+        </span>
+      }
+      </button>
+    </form>
+
+    <!-- Sign In Link -->
+    <!-- <div class="signin-link">
+      <span>Already have an account?</span>
+       <a class="text-decoration-none" (click)="toggleForm()">
+            {{ isLogin ? 'Create an account' : 'Already have an account?' }}
+          </a>
+    </div> -->
+
+    <!-- Divider -->
+    <!-- <div class="divider">
+      <span>Or continue with</span>
+    </div> -->
+
+    <!-- Social Signup -->
+    <!-- <div class="social-signup">
+      <button type="button" class="social-button google">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+          <path d="M17.64 9.2c0-.82-.14-1.42-.35-2.05H9v3.72h4.84c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z" />
+          <path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-3.16-2.45c-.81.53-1.86 1.05-2.8 1.05-2.13 0-3.95-1.43-4.6-3.36H1.07v2.52C2.56 17.12 5.53 18 9 18z" />
+          <path d="M4.4 10.06c-.09-.53-.16-1.1-.16-1.69 0-.59.07-1.16.16-1.69V3.16H1.07A8.996 8.996 0 000 9c0 1.45.35 2.82.98 4.03l3.85-2.97z" />
+          <path d="M9 3.88c1.88 0 3.13.64 3.85 1.17l2.84-2.76C13.46.89 11.43 0 9 0 5.53 0 2.56.88 1.07 2.36l3.33 2.52c.65-1.93 2.47-3.36 4.6-3.36z" />
+        </svg>
+        Google
+      </button>
+      <button type="button" class="social-button github">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+          <path d="M9 0C4.02 0 0 4.02 0 9c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.15-1.1-1.46-1.1-1.46-.88-.6.07-.59.07-.59.97.07 1.48.99 1.48.99.86 1.48 2.27 1.05 2.82.8.09-.62.34-1.05.61-1.29-2.14-.24-4.39-1.07-4.39-4.75 0-1.05.38-1.91 1-2.58-.1-.24-.43-1.24.1-2.59 0 0 .83-.26 2.72 1.01.79-.22 1.64-.33 2.48-.33.84 0 1.69.11 2.48.33 1.88-1.27 2.71-1.01 2.71-1.01.53 1.35.2 2.35.1 2.59.62.68 1 1.53 1 2.58 0 3.69-2.26 4.5-4.41 4.74.35.3.65.9.65 1.81v2.69c0 .26.18.58.69.48C15.13 17.17 18 13.42 18 9 18 4.02 13.98 0 9 0z" />
+        </svg>
+        GitHub
+      </button>
+    </div> -->
+
+  </div>
+
+  <!-- Right side decoration -->
+  <div class="signup-decoration"></div>
+</div>
+
+            }
+
+             <div class="signin-link">
+      <span>{{ isLogin ? `Don't have an account?` : 'Already have an account?' }}</span> / 
+       <a class="text-decoration-none" (click)="toggleForm()">
+         {{ isLogin ? 'Create an account' : 'Already have an account?' }}
+          </a>
+    </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="login-container">
+      <div class="login-wrapper">
+        <div class="login-card">
+          <!-- Header -->
+          <div class="login-header">
+            <div class="logo">
+              <img src="logo.png" alt="logo" height="60" > 
+            </div>
+            <p class="subheading">Create a account</p>
+          </div>
+
+          <!-- Form -->
+          <form (ngSubmit)="registerUser()" class="login-form">
+            <!-- Email field -->
+            <div class="form-group">
+              <label for="name" class="form-label">
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                [(ngModel)]="name"
+                name="name"
+                placeholder="Enter Your name"
+                class="form-input"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                [(ngModel)]="createemail"
+                name="email"
+                placeholder="you@example.com"
+                class="form-input"
+                required
+              />
+            </div>
+
+            <!-- Password field -->
+        <div class="form-group" style="position: relative;">
+  <label for="password" class="form-label">Password</label>
+
+  <input
+    id="password"
+    [type]="hide() ? 'password' : 'text'"
+    [(ngModel)]="createpassword"
+    name="password"
+    placeholder="••••••••"
+    class="form-input"
+    required
+  />
+
+  <!-- Eye Icon -->
+  <i
+    class="fas"
+    [ngClass]="hide() ? 'fa-eye-slash' : 'fa-eye'"
+    (click)="togglePassword()"
+  ></i>
+</div>
+
+
+            <!-- Submit button -->
+            <button
+              type="submit"
+              class="submit-btn"
+            >
+              Sign In
+            </button>
+          </form>
+      </div>
+    </div>

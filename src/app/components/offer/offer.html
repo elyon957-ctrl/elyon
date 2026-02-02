@@ -1,0 +1,76 @@
+  <div class="tabs">
+    @for(tab of tabs;track tab){
+      <h3 class="subNav" (click)="activeTab = tab.link" [class.active]="activeTab === tab.link">
+        {{ tab.name }}
+      </h3>
+    }
+  </div>
+  @if(activeTab === activeTab){
+<div class="container my-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-semibold">{{activeTab}}</h3>
+        <!-- <button style="color: blue; border: none; background-color: transparent;" class="text-decoration-none" >View All</button> -->
+      </div>
+  <div class="row g-3">
+    @for (item of products; track $index) {
+        
+        @if(activeTab === item.category){
+                @if(item.offer === true){
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card shadow-sm border-0 h-100 product-card">
+                        
+                        <!-- Image + Discount -->
+                        <div class="position-relative">
+                            <span class="badge text-bg-success position-absolute top-0 start-0 m-2">
+                                {{ item.discount }}% OFF
+                            </span>
+                            <img
+                            [src]="item.image"
+                            class="card-img-top product-img"
+                            alt="product"
+                            />
+                        </div>
+                        
+                        <!-- Body -->
+                        <div class="card-body d-flex flex-column p-2">
+                            
+                            <!-- Product name -->
+                            <h6 class="fw-semibold text-center mb-2">
+                                {{ item.name }}
+                            </h6>
+                            
+                            <!-- Price + Unit -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <span class="fw-semibold">₹{{ item.selectedPrice }}</span>
+                                    <small class="text-muted text-decoration-line-through ms-1">
+                                        ₹{{ item.selectedActualPrice }}
+                                    </small>
+                                </div>
+                                
+                                <select
+                                class="form-select form-select-sm unit-select"
+                                (change)="onUnitChange(item, $event)"
+                                >
+                                @for (unit of item.units; track $index) {
+                                    <option [value]="$index">{{ unit.label }}</option>
+                                }
+                            </select>
+                        </div>
+                        
+                        <!-- Add button -->
+                        <!-- <button
+                        class="btn btn-outline-danger w-100 mt-auto"
+                        (click)="addProduct(item)"
+                        >
+                        Add
+                    </button> -->
+                    
+                </div>
+            </div>
+        </div>
+    }}
+}
+</div>  
+</div>
+}

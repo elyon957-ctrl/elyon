@@ -1,0 +1,162 @@
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  display: grid;
+  padding: 32px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.details h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.current { font-size: 26px; font-weight: 700; }
+.old { text-decoration: line-through; color: #9ca3af; }
+.off { color: #ef4444; font-weight: 600; }
+
+.tax { font-size: 14px; color: #6b7280; margin: 12px 0 20px; }
+
+.variant-list {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.variant {
+  width: 64px;
+  height: 80px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.variant.active { border-color: #2563eb; }
+
+.size-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.size {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  cursor: pointer;
+}
+
+.size.active {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: #ef4444;
+  color: white;
+}
+
+.btn.secondary {
+  background: white;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}
+
+@media (max-width: 900px) {
+  .container { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr; }
+}
+
+.img-fluid{
+    height: 350px;
+}
+
+
+
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.carousel {
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.4s ease;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.product-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.nav {
+  background: #5b5b5b;
+  color: #fff;
+  border: none;
+  font-size: 24px;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+}

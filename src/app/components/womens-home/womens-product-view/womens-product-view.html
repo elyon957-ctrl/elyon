@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="row align-items-start">
+
+    <!-- Image 1 -->
+    <div class="col-6 col-md-4">
+      <img
+        class="img-fluid"
+        src="{{product.image}}"
+        alt="Product image"
+        />
+    </div>
+    
+    <!-- Image 2 -->
+    <div class="col-6 col-md-4">
+        <img
+        class="img-fluid"
+        src="{{product.image2}}"
+        alt="Product image"
+      />
+    </div>
+
+    <!-- Details -->
+    <div class="col-12 col-md-4">
+      <div class="details">
+        <h1>{{product.name}}</h1>
+        <p class="subtitle">Oversized T-Shirts</p>
+
+        <div class="price">
+          <span class="current">₹{{ product.selectedPrice }}</span>
+          <span class="old"> ₹{{ product.selectedActualPrice }}</span>
+          <span class="off">{{ product.discount }}% OFF</span>
+        </div>
+
+        <p class="tax">Price inclusive of all taxes</p>
+<!-- 
+        <div class="variants">
+          <strong>Shop by Variant / Look</strong>
+          <div class="variant-list">
+            <div>
+           
+            </div>
+          </div>
+        </div> -->
+
+        <div class="sizes">
+          <strong>Please select a size</strong>
+          <div class="size-list">
+             <div>
+                <select
+                class="form-select form-select-sm unit-select"
+                (change)="onUnitChange(product, $event)"
+              >
+                @for (unit of product.units; track $index) {
+                  <option [value]="$index">{{ unit.label }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+           @if(!isLoggedIn){
+            <button class="btn primary" (click)="openAuthModal()">ADD TO CART</button>
+          }@else{
+            <button class="btn primary" (click)="addProduct(product)">ADD TO CART</button>
+          }
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+<div class="carousel-wrapper">
+  <button class="nav left" (click)="prev()">‹</button>
+
+  <div class="carousel">
+    <div
+      class="carousel-track"
+      [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
+    >
+      @for (group of groupedProducts; track $index) {
+        <div class="carousel-slide">
+          @for (p of group; track $index) {
+            <div class="product-card">
+              <img [src]="p.image" />
+              <h5>{{ p.name }}</h5>
+              <p>₹{{ p.selectedPrice }}</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <button class="nav right" (click)="next()">›</button>
+</div>

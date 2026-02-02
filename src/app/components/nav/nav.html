@@ -1,0 +1,175 @@
+<section class="container-fluid p-0">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid nav-inner">
+
+      <!-- BURGER (Mobile only) -->
+      <button class="burger d-md-none" (click)="toggleMenu()">
+        <i class="fas fa-bars fa-lg"></i>
+      </button>
+
+      <!-- LEFT MENU (Desktop only) -->
+       <ul class="navbar-nav flex-row d-none d-md-flex">
+        @for(item of nav; track item){
+          <li class="nav-item">
+            <a class="nav-link" style="font-size: 14px;"
+               [routerLink]="item.link ? [item.link] : ['/mens']"
+               routerLinkActive="active">
+              {{ item.name | uppercase }}
+            </a>
+          </li>
+        }
+      </ul>
+
+      <!-- CENTER LOGO -->
+      <div class="brand-wrapper">
+        <img class="brand" src="logo.png" alt="ELYON logo" />
+      </div>
+
+      <!-- RIGHT ICONS -->
+      <ul class="navbar-nav flex-row align-items-center">
+         <li class="nav-item" (click)="searchBar()">
+          @if(!bar){
+            <a class="nav-link">
+              <i class="fas fa-search"></i>
+            </a>
+          }
+          @if(bar){
+            <form class="d-flex" role="search">
+            <input class="form-control search" type="search" placeholder="Search" aria-label="Search"/>
+            <a class="nav-link" type="submit">
+              <i class="fas fa-search"></i>
+            </a>
+          </form>}
+        </li>
+
+        <!-- Wishlist -->
+        <li class="nav-item">
+          <a class="nav-link">
+            <!-- <i class="far fa-heart"></i> -->
+             <i class="fa-solid fa-heart" style="color: #ff0000;"></i>
+          </a>
+        </li>
+        <!-- CART -->
+        <li class="nav-item me-3">
+           @if(!isLoggedIn){
+          
+          <a class="nav-link position-relative" (click)="openAuthModal()">
+            <i class="fas fa-shopping-bag fa-lg"></i>
+            @if(cartCount >= 1){
+              <span class="badge rounded-pill badge-notification bg-danger">
+                {{ cartCount }}
+              </span>
+            }
+          </a>
+          }
+          @if(auth.userDetails?.role === "Admin"){
+            <a class="nav-link position-relative"  [routerLink]="['/adminhome']">
+              <i class="fas fa-laptop-code "></i>
+            </a>
+
+          }@else{
+
+            @if(isLoggedIn){
+              <a class="nav-link position-relative" (click)="navto('cart')">
+            <i class="fas fa-shopping-bag fa-lg"></i>
+            @if(cartCount >= 1){
+              <span class="badge rounded-pill badge-notification bg-danger">
+                {{ cartCount }}
+              </span>
+            }
+          </a>
+        }
+        }
+        </li>
+
+        <!-- ADMIN -->
+        @if(auth.userDetails?.role === 'Admin'){
+          <li class="nav-item me-3">
+            <a class="nav-link" [routerLink]="['/adminhome']">
+              <i class="fas fa-laptop-code"></i>
+            </a>
+          </li>
+        }
+
+        <!-- PROFILE (Desktop only) -->
+        @if(isLoggedIn){
+          <li class="nav-item me-3 d-none d-md-flex align-items-center">
+            <img
+              src="https://mdbootstrap.com/img/new/avatars/1.webp"
+              class="rounded-circle"
+              height="24"
+              alt="profile"
+            />
+            <strong class="ms-2">
+              {{ auth.userDetails?.name }}
+            </strong>
+          </li>
+
+          <!-- LOGOUT (Desktop only) -->
+          <li class="nav-item d-none d-md-flex">
+            <a class="nav-link" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+          </li>
+        }
+      </ul>
+
+    </div>
+  </nav>
+</section>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" [class.open]="menuOpen">
+  <ul>
+    @for(item of nav; track item){
+      <li (click)="closeMenu()">
+        <a [routerLink]="item.link ? item.link : '/mens'">
+          {{ item.name }}
+        </a>
+      </li>
+    }
+    @if(isLoggedIn){
+      <li class="mobile-logout" (click)="logout(); closeMenu()">
+        LOGOUT
+      </li>
+    }
+  </ul>
+</div>
+
+<div class="backdrop" *ngIf="menuOpen" (click)="closeMenu()"></div>
+
+
+<!-- MOBILE SLIDE MENU -->
+<div class="mobile-menu" [class.open]="menuOpen">
+  <ul>
+    @if(isLoggedIn==true){
+    <li class="mobile-profile" style="padding-bottom: 50px;">
+     <img
+       src="https://mdbootstrap.com/img/new/avatars/1.webp"
+       class="rounded-circle"
+       height="40"
+       alt="profile"
+     />
+     <span>{{auth.userDetails?.name}}</span>
+   </li>
+    }
+    @for(item of nav; track item){
+      <li (click)="closeMenu()">
+        <a [routerLink]="item.link ? [item.link] : ['/mens']">
+          {{ item.name }}
+        </a>
+      </li>
+    }
+@if(isLoggedIn==true){
+    <!-- Mobile Logout -->
+    <li class="mobile-logout" (click)="logout(); closeMenu()" style="color: red;">
+       Logout
+    </li>}
+  </ul>
+</div>
+
+<!-- BACKDROP -->
+ @if(menuOpen){
+
+   <div class="backdrop"  (click)="closeMenu()"></div>
+  }

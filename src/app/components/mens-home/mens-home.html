@@ -1,0 +1,114 @@
+@if(isloading){
+  <section style="margin-top: 58px;">
+    <section class="hero">
+      <div class="hero__left">
+        <img [src]="Banner[0]?.url" alt="hero left" />
+        <div class="hero__caption">
+          <span>Shop the denim edit</span>
+        </div>
+      </div>
+      <div class="hero__right">
+        <img [src]="Banner[1]?.url" alt="hero right" />
+      </div>
+    </section>
+    
+    <section class="trending">
+      <h2 class="trending__title">Trending Now</h2>
+      
+      <div class="trending__track-wrap">
+        
+        <button class="trending__arrow trending__arrow--left" (click)="scrollTrending(-1)">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        
+        
+        <div class="trending__track" #trendingTrack>
+          @for(item of productCategories; track item.id) {
+            @if(item.categorie === "Men") {
+              <div class="trending__card" (click)="openProduct(item)">
+                <div class="trending__img-wrap">
+                  <img [src]="item.image1" [alt]="item.name" />
+                  <button class="trending__wish" (click)="$event.stopPropagation()">♡</button>
+                </div>
+                <p class="trending__name">{{ item.name }}</p>
+                <p class="trending__price">₹{{ item.selectedPrice || item.price || 999 }}</p>
+              </div>
+            }
+          }
+        </div>
+        <!-- <div class="trending__track" #trendingTrack>
+  @for(item of productCategories; track item.id) {
+    @if(item.categorie === "Men") {
+      <div class="trending__card" (click)="openProduct(item)">
+        <div class="trending__img-wrap">
+        
+          <img
+            class="img-main"
+            [src]="item.image1"
+            [alt]="item.name"
+          />
+
+    
+          <img
+            class="img-hover"
+            [src]="item.image2"
+            [alt]="item.name"
+          />
+
+          <button
+            class="trending__wish"
+            (click)="$event.stopPropagation()"
+          >
+            ♡
+          </button>
+        </div>
+
+        <p class="trending__name">{{ item.name }}</p>
+        <p class="trending__price">
+          ₹{{ item.selectedPrice || item.price || 999 }}
+        </p>
+      </div>
+    }
+  }
+</div> -->
+
+        
+        
+        <button class="trending__arrow trending__arrow--right" (click)="scrollTrending(1)">
+          <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </section>
+    
+    <section class="running-banner">
+      
+      <div class="track">
+        
+        
+        @for(item of Banner; track $index){
+          <div class="banner-box">
+            <img [src]="item.url" />
+            <div class="overlay">
+              <h2>{{ item.title || 'COLLECTION' }}</h2>
+              <button>SHOP NOW</button>
+            </div>
+          </div>
+        }
+        
+        
+        @for(item of Banner; track $index){
+          <div class="banner-box">
+            <img [src]="item.url" />
+            <div class="overlay">
+              <h2>{{ item.title || 'COLLECTION' }}</h2>
+              <button>SHOP NOW</button>
+            </div>
+          </div>
+        }
+        
+      </div>
+      
+    </section>
+    
+  </section>
+}

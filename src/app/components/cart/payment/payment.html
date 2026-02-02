@@ -1,0 +1,38 @@
+<section style=" height: 100vh; padding-top:80px">
+    <button class="btn btn-primary" (click)="goBack()">← Back</button>
+
+    <div class="payment-container container" style="margin-top: 50px;  background-color: rgba(171, 171, 255, 0.253);">
+        <div class="left-section">
+            <div class="section-title">Complete Payment</div>
+            @if(total <= 500){ <div class="payment-option" (click)="payNow(total+149)"><i>💱</i> UPI - Pay by any UPI
+                app
+        </div>
+        }@else{
+        <div class="payment-option" (click)="payNow(total)"><i>💱</i> UPI - Pay by any UPI app</div>
+        }
+
+        <div class="payment-option" style="opacity: 0.6; cursor: not-allowed;"><i>🎁</i> Have a Flipkart Gift Card?
+        </div>
+        <!-- <div class="payment-option" (click)="orderPlaced()">💸 Cash on Delivery</div> -->
+    </div>
+
+    <div class="right-section" style=" background-color: rgba(171, 171, 255, 0.253);">
+        <div class="secure-tag">🔒 100% Secure</div>
+        <div class="summary-box">
+            <div class="summary-item"><span>Price items</span><span>₹{{total}}</span></div>
+            <!-- <div class="summary-item"><span>Pickup Charges & Delivery Charges</span><span>₹149</span></div> -->
+            @if(total <= 500){ <div class="summary-item"><span>Pickup Charges & Delivery Charges</span><span>₹149</span>
+        </div>
+        <!-- <div class="summary-item"><span>Protect Promise Fee</span><span>₹79</span></div> -->
+        <div class="summary-item total"><span>Total Amount</span><span>₹{{total+149}}</span></div>
+        }@else{
+        <div class="summary-item total"><span>Total Amount</span><span>₹{{total}}</span></div>
+        }
+    </div>
+    <div class="discount">
+        <strong>10% instant discount</strong><br>
+        Claim now with payment offers
+    </div>
+    </div>
+    </div>
+</section>

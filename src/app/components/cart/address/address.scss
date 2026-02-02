@@ -1,0 +1,12 @@
+.btn-secondary:hover{
+    background-color: var(--primary);
+    color: var(--body-primary);
+}
+.btn-secondary{
+    background-color: white;
+}
+ @media (max-width: 768px) {
+      .container {
+        width: fit-content;
+      }
+    }

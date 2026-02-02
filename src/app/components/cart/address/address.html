@@ -1,0 +1,77 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add the Address</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-address-add></app-address-add>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section style="height: 100vh; padding-top:80px">
+  <button class="btn btn-primary" (click)="goBack()">← Back</button>
+  <div class="container bg-white shadow-sm rounded-3" style="background-color: rgba(171, 171, 255, 0.253);">
+
+    <!-- LOGIN -->
+    <div class="border-bottom p-3">
+      <h5 class="d-flex align-items-center mb-2">
+        <span class="badge bg-light text-primary me-2">1</span> LOGIN
+      </h5>
+    </div>
+
+    <!-- DELIVERY ADDRESS -->
+    <div class="p-0">
+      <div class="bg-light border-start border-primary border-4 py-2 px-3 fw-semibold text-primary">
+        <h5 class="mb-0">
+          <span class="badge bg-light text-primary me-2">2</span> DELIVERY ADDRESS
+        </h5>
+      </div>
+      @for(item of savedAddress; track item; let i = $index){
+      <div class="border-bottom d-flex align-items-start p-3">
+        <!-- <input class="form-check-input mt-1 me-3" type="radio" name="address" [checked]="i === 0" /> -->
+
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center mb-1">
+            <strong>{{ item.name }}</strong>
+            <!-- <span *ngIf="addr.tag" class="badge bg-light text-dark ms-2">{{ addr.tag }}</span> -->
+            <span class="text-secondary ms-2 small">{{ item.phonenumber }}</span>
+            <button type="button" class=" btn btn-success btn-sm ms-auto fw-semibold text-decoration-none"
+              (click)="deliverHere(item)">DELIVER HERE</button>
+          </div>
+          <div class="text-muted small">{{ item.address }}</div>
+          <!-- <button *ngIf="i === selectedIndex" class="btn btn-warning btn-sm mt-2 fw-semibold" (click)="deliverHere(item)">
+          DELIVER HERE
+        </button> -->
+        </div>
+      </div>
+      }
+
+      <!-- <div class="p-3 border-top text-primary fw-semibold" role="button">
+      ▼ View all {{ addresses.length }} addresses
+    </div> -->
+      <div class="p-3 border-top text-primary fw-semibold d-flex align-items-center" role="button">
+        <span (click)="openModal()" routerLinkActive="router-link-active"> <span class="fs-5 me-2">＋</span> Add a new
+          address
+        </span>
+      </div>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="border-top p-3">
+      <h5 class="d-flex align-items-center mb-0">
+        <span class="badge bg-light text-primary me-2">3</span> ORDER SUMMARY
+      </h5>
+    </div>
+  </div>
+</section>
