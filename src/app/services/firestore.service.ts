@@ -36,12 +36,12 @@ export interface CartItem {
   providedIn: 'root',
 })
 export class FirestoreService {
-  getCollectionGroup(arg0: string) {
-    throw new Error('Method not implemented.');
-  }
-  filter(arg0: (item: any) => boolean): FirestoreService {
-    throw new Error('Method not implemented.');
-  }
+  // getCollectionGroup(arg0: string) {
+  //   throw new Error('Method not implemented.');
+  // }
+  // filter(arg0: (item: any) => boolean): FirestoreService {
+  //   throw new Error('Method not implemented.');
+  // }
   private authService?: AuthService;
 
   constructor(private firestore: Firestore, private injector: Injector) {
@@ -98,9 +98,234 @@ export class FirestoreService {
   }
 
   update(item: any, path: string) {
-    const ref = doc(this.firestore, path);
-    return updateDoc(ref, item);
-
-  }
+  const ref = doc(this.firestore, path);
+  return setDoc(ref, item, { merge: true });
+}
   
+
+
+  getOrdersPage({
+  page,
+  limit: pageSize,
+  paymentStatus,
+  payment,
+  category,
+  search,
+  searchAuto
+}: {
+  page: number;
+  limit: number;
+  paymentStatus?: string;
+  payment?: string;
+  category?: string;
+  search?: string;
+  searchAuto?: string;
+
+}) {
+
+  let q: any = query(collectionGroup(this.firestore, 'OrderPlaced'));
+
+  return from(getDocs(q)).pipe(
+    map((snap: any) => {
+      // Convert docs → array
+      let docs = snap.docs.map((d: any) => ({
+        id: d.id,
+        ...d.data()
+      }));
+
+      // 2️⃣ In-memory filters (same as search)
+      if (paymentStatus) {
+        docs = docs.filter((o: any) => o.paymentStatus === paymentStatus);
+      }
+
+      if (payment) {
+        docs = docs.filter((o: any) => o.paymentmethod === payment);
+      }
+
+      if (category) {
+        docs = docs.filter((o: any) => o.productCategory === category);
+      }
+
+      if (search) {
+        const s = search.toLowerCase();
+        docs = docs.filter((o: any) =>
+          o.id.toLowerCase().includes(s) ||
+          (o.customerName && o.customerName.toLowerCase().includes(s))
+        );
+      }
+
+      if (searchAuto) {
+        const s = searchAuto.toLowerCase();
+        docs = docs.filter((o: any) =>
+          o.id.toLowerCase().includes(s) ||
+          (o.customerName && o.customerName.toLowerCase().includes(s))
+        );
+      }
+
+
+      const start = (page - 1) * pageSize;
+      const end = start + pageSize;
+
+      return docs.slice(start, end);
+    })
+  );
+}
+
+countOrders(status?: string, payment?: string, category?: string) {
+  let q: any = query(collectionGroup(this.firestore, 'OrderPlaced'));
+
+  return from(getDocs(q)).pipe(
+    map((snap: any) => {
+      let docs = snap.docs.map((d: any) => ({
+        id: d.id,
+        ...d.data()
+      }));
+
+      // Apply in-memory filters for status, payment, category (but not search)
+      if (status) {
+        docs = docs.filter((o: any) => o.status === status);
+      }
+
+      if (payment) {
+        docs = docs.filter((o: any) => o.paymentmethod === payment);
+      }
+
+      if (category) {
+        docs = docs.filter((o: any) => o.productCategory === category);
+      }
+
+      return docs.length;
+    })
+  );
+}
+
+ getCategoryPage({
+  page,
+  limit: pageSize,
+  category,
+  search,
+}: {
+  page: number;
+  limit: number;
+  category?: string;
+  search?: string;
+
+
+}) {
+
+  let q: any = query(collectionGroup(this.firestore, 'ProductCategory'));
+
+  return from(getDocs(q)).pipe(
+    map((snap: any) => {
+      // Convert docs → array
+      let docs = snap.docs.map((d: any) => ({
+        id: d.id,
+        ...d.data()
+      }));
+
+    
+      if (category) {
+        docs = docs.filter((o: any) => o.categorie === category);
+      }
+
+      if (search) {
+        const s = search.toLowerCase();
+        docs = docs.filter((o: any) =>
+          o.id.toLowerCase().includes(s) ||
+          (o.name && o.name.toLowerCase().includes(s))
+        );
+      }
+
+
+      const start = (page - 1) * pageSize;
+      const end = start + pageSize;
+
+      return docs.slice(start, end);
+    })
+  );
+}
+
+countCategory(search?: string,  category?: string) {
+  let q: any = query(collectionGroup(this.firestore, 'ProductCategory'));
+
+  return from(getDocs(q)).pipe(
+    map((snap: any) => {
+      let docs = snap.docs.map((d: any) => ({
+        id: d.id,
+        ...d.data()
+      }));
+
+      if (category) {
+        docs = docs.filter((o: any) => o.categorie === category);
+      }
+
+      return docs.length;
+    })
+  );
+}
+
+getProductsPage({
+  page,
+  limit: pageSize,
+  category,
+  search,
+}: {
+  page: number;
+  limit: number;
+  category?: string;
+  search?: string;
+
+
+}) {
+
+  let q: any = query(collectionGroup(this.firestore, 'Products'));
+
+  return from(getDocs(q)).pipe(
+    map((snap: any) => {
+      // Convert docs → array
+      let docs = snap.docs.map((d: any) => ({
+        id: d.id,
+        ...d.data()
+      }));
+
+    
+      if (category) {
+        docs = docs.filter((o: any) => o.categorytype === category);
+      }
+
+      if (search) {
+        const s = search.toLowerCase();
+        docs = docs.filter((o: any) =>
+          o.id.toLowerCase().includes(s) ||
+          (o.name && o.name.toLowerCase().includes(s))
+        );
+      }
+
+
+      const start = (page - 1) * pageSize;
+      const end = start + pageSize;
+
+      return docs.slice(start, end);
+    })
+  );
+}
+countProducts(search?: string,  category?: string) {
+  let q: any = query(collectionGroup(this.firestore, 'Products'));
+
+  return from(getDocs(q)).pipe(
+    map((snap: any) => {
+      let docs = snap.docs.map((d: any) => ({
+        id: d.id,
+        ...d.data()
+      }));
+
+      if (category) {
+        docs = docs.filter((o: any) => o.categorytype === category);
+      }
+
+      return docs.length;
+    })
+  );
+}
+
 }

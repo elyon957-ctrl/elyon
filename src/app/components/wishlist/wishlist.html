@@ -1,0 +1,75 @@
+<div class="wishlist-container">
+  <div class="wishlist-wrapper">
+    <div class="header-section">
+      <a class="back-link" routerLink="/product">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Product
+      </a>
+      <div class="header-content">
+        <h1>My Wishlist</h1>
+        <p class="item-count">{{ wishlistItems.length }} items saved</p>
+      </div>
+    </div>
+
+    <div class="wishlist-content" [class.empty]="wishlistItems.length === 0">
+      @if (wishlistItems.length === 0) {
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+        <h2>Your wishlist is empty</h2>
+        <p>Start adding items to your wishlist to save your favorites for later</p>
+        <a class="continue-btn" routerLink="/mens">Continue Shopping</a>
+      } @else {
+        <div class="wishlist-grid">
+          @for (item of wishlistItems; track $index) {
+            <div class="wishlist-card">
+              <div class="card-image">
+                <img [src]="item.image" [alt]="item.name" />
+                <button class="remove-btn" (click)="removeItem(item?.id)" title="Remove from wishlist">
+                  ×
+                </button>
+                @if (item.discount) {
+                  <div class="discount-badge">-{{ item.discount }}%</div>
+                }
+              </div>
+              <div class="card-content">
+                <h3>{{ item.name }}</h3>
+                <p class="product-category">{{ item.category }}</p>
+                <!-- <div class="rating">
+                  @for (star of [1, 2, 3, 4, 5]; track $index) {
+                    @if (star <= Math.floor(item.rating)) {
+                      <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    }
+                  }
+                  <span>({{ item.reviews }})</span>
+                </div> -->
+                <div class="price">
+                  <div class="current-price">₹{{ item.selectedPrice }}</div>
+                  <div class="original-price">₹{{ item.selectedActualPrice }}</div>
+                </div>
+                <div class="actions">
+                  <button class="view-details" (click)="openProduct(item)">View</button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="wishlist-summary">
+          <div class="summary-info">
+            <div class="summary-item">
+              <h3>{{ wishlistItems.length }}</h3>
+              <p>items in wishlist</p>
+            </div>
+          
+          </div>
+       
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -4,7 +4,7 @@ import { Auth, authState } from '@angular/fire/auth';
 import { FirestoreService } from '../services/firestore.service';
 import { switchMap, map, of } from 'rxjs';
 
-export const adminGuard: CanActivateFn = () => {
+export const authGuard: CanActivateFn = () => {
   const auth = inject(Auth);
   const router = inject(Router);
   const firestore = inject(FirestoreService);
@@ -20,7 +20,7 @@ export const adminGuard: CanActivateFn = () => {
           if (userData?.role === 'Admin') {
             return true;
           }
-          return router.createUrlTree(['/mens']);
+            return router.createUrlTree(['/adminhome']);
         })
       );
     })

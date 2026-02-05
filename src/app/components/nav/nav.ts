@@ -14,7 +14,7 @@ declare var bootstrap: any;
 })
 export class Nav  implements OnInit {
   constructor(private firestore: FirestoreService,private router: Router,public  auth: AuthService,private route: ActivatedRoute) {}  
-nav : any =[];
+
 cartCount: number =0;
 isLoggedIn = false;
 Nav:any[] =[];
@@ -38,11 +38,6 @@ getNav() {
   if(this.isLoggedIn=true){
     const role = this.auth.userDetails?.role; 
     const userId = this.auth.userDetails?.id;
-    this.firestore.getList('Nav').subscribe({
-      next: (data: any) => {
-        if (data && data.length) {
-          console.log(userId)
-          this.nav = data[0].nav;
         if (userId) {
           this.firestore.getList(`Users/${userId}/Cart`).subscribe({
             next: (cart) => {
@@ -53,12 +48,6 @@ getNav() {
             error: (err) => console.error('Error fetching cart:', err)
           });
         }
-      }
-    },
-    error: (error: any) => {
-      console.error('Error fetching navigation data:', error);
-    }
-  });
 }else{
    this.firestore.getList('Nav').subscribe({
         next: (data: any[]) => {
@@ -108,4 +97,22 @@ openAuthModal() {
   modal.show();
 }
 
+nav = [
+    {
+      "link": "mens",
+      "name": "Men's"
+    },
+    {
+      "link": "womens",
+      "name": "Women's"
+    },
+    {
+      "link": "kids",
+      "name": "Kids"
+    },
+    {
+      "link": "todaydeals",
+      "name": "Today Deals"
+    }
+  ]
 }

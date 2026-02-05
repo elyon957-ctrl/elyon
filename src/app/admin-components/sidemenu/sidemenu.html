@@ -1,0 +1,65 @@
+<!-- 🌟 Mobile Hamburger Button -->
+<button class="hamburger-btn" (click)="isMenuOpen = true" style="margin-top: 60px;">
+  <div class="icon-wrapper">
+    <div class="spinner"></div>
+    <span class="icon">🏚️</span>
+  </div>
+</button>
+<!-- 🌟 Desktop Sidebar (your existing sidebar) -->
+<section class="sidebar desktop-only" style="margin-top: 60px;">
+  <div class="sidebar-logo">
+    <div class="logo-text">
+      <span class="logo-subtitle">Admin Panel</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    @for(item of navItems; track item) {
+      <a
+        (click)="nav(item.path)"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="nav-link"
+        style="padding-bottom:25px;"
+      >
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="user-avatar">A</div>
+      <div class="user-details">
+        <span class="user-name">Admin User</span>
+        <span class="user-email">admin@oilflow.com</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--  MOBILE FULL-SCREEN MENU MODAL -->
+<div class="mobile-menu" [class.open]="isMenuOpen">
+  
+
+  <button class="close-btn" (click)="isMenuOpen = false">✕</button>
+
+  <div class="mobile-menu-logo">
+    <span>Admin Panel</span>
+  </div>
+
+
+  <nav class="mobile-nav">
+    @for(item of navItems; track item) {
+      <a
+        (click)="nav(item.path); isMenuOpen = false"
+        class="mobile-nav-item"
+      >
+        {{ item.label }}
+      </a>
+    }
+  </nav>
+
+</div>

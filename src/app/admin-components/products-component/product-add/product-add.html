@@ -1,0 +1,112 @@
+<section class="container" >
+  <div class="row justify-content-center mt-4">
+    <form [formGroup]="productForm!" (ngSubmit)="onSubmit()">
+         <div class="mb-3">
+            <a href="https://www.image2url.com/" target="_blank">Convert Image to URL</a>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" formControlName="name" placeholder="Product Name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Category</label>
+          <select class="form-select form-select mb-3" aria-label="Select category"
+          formControlName="productCategory">
+          <option value="" disabled selected>Select a category</option>
+          @for(item of productCategories; track $index){
+            <option value="{{item.category}}">{{item.name}}</option>
+          }
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Category Type</label>
+        <select class="form-select form-select mb-3" aria-label="Select category Type"
+        formControlName="categoryType">
+        <option value="" disabled selected>Select a category type</option>
+        <option value="Men">Men</option>
+        <option value="Women">Women</option>
+        <option value="kids">Kids</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Colors</label>
+      <select class="form-select form-select mb-3" aria-label="Select color"
+      formControlName="color">
+      <option value="" disabled selected>Select a colors</option>
+      @for(color of colors; track $index){
+        <option value="{{color.name}}">{{color.name}} </option>
+      }
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Image 1</label>
+    <input type="text" class="form-control" formControlName="image1" placeholder="Image URl">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Image 2</label>
+    <input type="text" class="form-control" formControlName="image2" placeholder="Image URl">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Image 3</label>
+    <input type="text" class="form-control" formControlName="image3" placeholder="Image URl">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Image 4</label>
+    <input type="text" class="form-control" formControlName="image4" placeholder="Image URl">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Discount</label>
+    <input type="number" class="form-control" formControlName="discount" placeholder="Discount">
+  </div>
+        <div class="mb-3">
+          <label class="form-label">Offer</label>
+          <input
+    type="checkbox"
+    class="form-check-input"
+    id="offer"
+    formControlName="offer"
+  />
+        </div>
+
+        <div class="col-12">
+      <hr>
+      <h5>Units & Prices</h5>
+    </div>
+
+    <div formArrayName="units" class="col-12">
+      @for (unit of units.controls; track $index; let i = $index) {
+        <div [formGroupName]="i" class="border p-3 rounded mb-3 bg-light">
+
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label>Unit Size</label>
+              <input type="text" class="form-control" formControlName="label" placeholder="S, M ,L">
+            </div>
+            <div class="col-md-4">
+              <label>Price</label>
+              <input type="number" class="form-control" formControlName="price">
+            </div>
+            <div class="col-md-3">
+              <label>Actual Price</label>
+              <input type="number" class="form-control" formControlName="actualPrice">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-6 d-flex align-items-center justify-content-start mb-3">
+            <button type="button" class="btn btn-primary btn-sm" (click)="addUnit()">
+              Add
+            </button>
+          </div>
+          <div class="col-md-6 d-flex align-items-center justify-content-end">
+            <button type="button" class="btn btn-danger btn-sm" (click)="removeUnit(i)">
+              Remove
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+    </form>
+  </div>
+</section>

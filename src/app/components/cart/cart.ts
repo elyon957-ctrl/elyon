@@ -1,6 +1,6 @@
 import { Component, OnInit,  ChangeDetectionStrategy, signal } from '@angular/core';
 import { FirestoreService } from '../../services/firestore.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 
@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
   selector: 'app-cart',
   templateUrl: './cart.html',
   styleUrls: ['./cart.scss'],
+  imports: [RouterLink],
 })
 export class Cart implements OnInit {
   total: number = 0;

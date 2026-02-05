@@ -1,107 +1,59 @@
-
-.card-img-top{
-    object-fit:contain;
-    height:250px !important;
-}
-.product-card:hover{
-scale: 1.1!important;
-}
-.product-img {
-    height: 180px;
-    object-fit: cover;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-   .actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 8px;
-      margin: 10px;
-    }
-      .qty-btn:hover {
-    background-color: var(--primary);
-    color: var(--body-primary);
-    }
-    .qty-input{
-        width: 25px;
-    }
-    .actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.qty-btn {
-  background-color: #f0ad4e;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.qty-input {
-  width: 40px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.fa-edit {
-color: rgba(0, 0, 255, 0.34);
-}
-.fa-trash {
-color: rgba(255, 0, 0, 0.34);
-}
-.fa-edit:hover {
-color:blue !important;
-}
-.fa-trash:hover {
-color:red !important;
-}
-.action-icons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 5px;      /* exact spacing */
-  align-items: center;
-  padding: 10px;
-}
-
-.action-icons i {
-  cursor: pointer;
-  font-size: 18px;
-}
-.form-select{
-  width: 60% !important;
-}
-@media (max-width: 576px) {
-  .product-img {
-    height: 140px;
-  }
-
-  .product-card {
-    font-size: 14px;
-  }
-
-  .unit-select {
-    width: 60px;
-  }
-}
-
-.tabs{
+.coming-soon {
+  height: 100vh;
   width: 100%;
-  margin: 30px;
+  background: linear-gradient(135deg, #f0ece6, #ffffff);
   display: flex;
-  gap: 50px;
-  cursor: pointer;
+  align-items: center;
   justify-content: center;
+  font-family: 'Inter', sans-serif;
 }
-  .subNav{
-    text-align: center;
-    color: black;
+
+.coming-card {
+  text-align: center;
+  padding: 60px 50px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+  max-width: 420px;
+  animation: fadeUp 0.8s ease;
 }
-.subNav:hover{
-      color: blue;
+
+.coming-card h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.coming-card p {
+  color: #6b6b6b;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background: #1a1a1a;
+  margin: 30px auto;
+}
+
+.brand {
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+/* subtle entrance */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

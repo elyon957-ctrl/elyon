@@ -15,7 +15,7 @@ export class App {
   protected title = 'Elyon';
 
    private auth = inject(Auth);
-  private authService = inject(AuthService);
+  public authService = inject(AuthService);
   private router = inject(Router);
 
   islogin = false;
@@ -28,7 +28,16 @@ export class App {
         const userDetails: any = await this.authService.setUser(user.uid);
         this.authService.userDetails = userDetails;
         this.islogin = true;
+        if(userDetails.gender === 'Male') {
           this.router.navigate(['/mens'], { replaceUrl: true });
+        } else if(userDetails.gender === 'Female') {
+          this.router.navigate(['/womens'], { replaceUrl: true });
+        } else{
+          this.router.navigate(['/mens'], { replaceUrl: true });
+        }
+        if(userDetails.role === 'Admin') {
+          this.router.navigate(['/adminhome'], { replaceUrl: true });
+        }
       } else {
         this.islogin = false;
         this.router.navigate(['/login'], { replaceUrl: true });

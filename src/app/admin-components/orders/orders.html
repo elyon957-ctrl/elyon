@@ -1,0 +1,176 @@
+<div class="orders" style="margin-top:60px ;">
+  <!-- Page Header -->
+  <div class="orders-header">
+    <div class="header-text">
+      <h2>Orders</h2>
+      <p>Manage customer orders and shipping information.</p>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="filters-card">
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label>Search Orders</label>
+        <div class="input-group rounded">
+  <input  #searchInput type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+  <span class="input-group-text border-0" id="search-addon">
+    <i class="fas fa-search" (click)="onSearch(searchInput.value)"></i>
+  </span>
+</div>
+    </div>
+
+      <!-- <div class="filter-group">
+        <input type="text" placeholder="Search by order ID or customer..." [(ngModel)]="searchTerm" />
+      </div> -->
+      <div class="filter-group">
+        <label>Order Status</label>
+        <select [(ngModel)]="selectedStatus">
+          <option value="">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="processing">Processing</option>
+          <option value="shipping">Shipped</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="orders-table-card">
+    <div class="table-header">
+      <h3>Order List</h3>
+      <span class="order-count">{{ filteredOrders.length }} orders</span>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer Address</th>
+            <th>Products</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+             @if(filteredOrders.length === 0){
+                     <tr>
+          <td colspan="10" style="text-align:center; color:#888;">
+            No Order Found
+          </td>
+        </tr>
+                    }@else{
+          @for (order of filteredOrders
+                    | paginate: {
+                      id: 'orders',
+                      itemsPerPage: itemsPerPage,
+                      currentPage: currentPage,
+                      totalItems: totalOrders
+                    };
+                    track order.id
+                  ) {
+          <tr>
+            <td class="order-id">
+              <span class="id-badge">{{ order.id }}</span>
+            </td>
+            <td>
+              <div class="customer-info">
+                <p class="customer-name">{{ order.customerName }}</p>
+                <p class="customer-email">{{ order.customerAddress }}</p>
+              </div>
+            </td>
+            <td>
+              <div class="products-list">
+                <!-- @for( product of order.name; track $index; let last = $last){ -->
+                <span class="product-tag">
+                  {{ order.name }}
+
+                  <span>,</span>
+
+                </span>
+                <!-- } -->
+              </div>
+            </td>
+            <td class="date-text">{{ order.date }}</td>
+            <td class="text-semibold">{{ formatPrice(order.price) }}</td>
+            <td>
+              <span [ngClass]="'status-' + order.paymentStatus" class="status-badge">
+                {{ getStatusLabel(order.paymentStatus) }}
+              </span>
+            </td>
+            <td>
+              <span [ngClass]="'payment-' + order.paymentStatus" class="payment-badge">
+                {{ getPaymentLabel(order.paymentStatus) }}
+              </span>
+            </td>
+            <td>
+              <div class="order-actions">
+                @if(order.paymentStatus === 'Paid') {
+                <a class="btn btn-primary" (click)="saveStatus(order,'Process')">⏳ Process</a>
+                }
+                @if(order.paymentStatus === 'Process') {
+                <a class="btn btn-warning" (click)="saveStatus(order,'Quality Check')">⚙️ Quality Check</a>
+                }
+                @if(order.paymentStatus === 'Quality Check') {
+                <a class="btn btn-info" (click)="saveStatus(order,'Order Dispatched')">🚚 Order Dispatched</a>
+                }
+                @if(order.paymentStatus === 'Order Dispatched') {
+                <a class="btn btn-secondary" (click)="saveStatus(order,'Delivered')">📦 Delivered</a>
+                }
+                @else if(order.paymentStatus === 'Delivered') {
+                <a>Delivered</a>
+                }
+              </div>
+            </td>
+          </tr>
+          }}
+        </tbody>
+      </table>
+    </div>
+@if(totalOrders > 0){
+
+  <!-- Pagination -->
+  <div class="table-pagination">
+    
+    <p class="pagination-info">Showing {{ showingFrom }} to {{ showingTo }} of {{ totalOrders }} orders</p>
+    
+  </div>
+  
+  <pagination-controls
+  id="orders"
+  previousLabel="Prev"
+  nextLabel="Next"
+  (pageChange)="onPageChange($event)"
+  class="mt-3">
+</pagination-controls>
+}
+  </div>
+
+  <!-- Order Summary Stats -->
+  <div class="order-stats">
+    <div class="stats-grid">
+      <div class="stat-box">
+        <p class="stat-label">Total Orders</p>
+        <p class="stat-value">{{ totalOrders }}</p>
+      </div>
+
+      <div class="stat-box">
+        <p class="stat-label">Pending Orders</p>
+        <p class="stat-value">{{ countByStatus('pending') }}</p>
+      </div>
+
+      <div class="stat-box">
+        <p class="stat-label">Shipped Today</p>
+        <p class="stat-value">{{ countByStatus('shipped') }}</p>
+      </div>
+
+      <div class="stat-box">
+        <p class="stat-label">Total Revenue</p>
+        <p class="stat-value">{{ formatPrice(calculateTotalRevenue()) }}</p>
+      </div>
+    </div>

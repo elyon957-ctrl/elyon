@@ -62,12 +62,13 @@ setUser(uid:any){
   }
 
 
- async register(email: string, password: string, name: string,role?:string) {
+ async register(email: string, password: string, name: string,role?:string,gender?:string) {
     try {
       const result = await createUserWithEmailAndPassword(this.auth, email, password);
       const userData: any = {
         email: result.user.email,
         name: name,       
+        gender: gender,       
         id: result.user.uid,
         role: role ??  'User',
       }

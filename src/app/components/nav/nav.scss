@@ -4,7 +4,7 @@
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 9999;
-  padding: 12px 0;
+  padding: 20px;
 }
 
 /* INNER WRAPPER */
@@ -24,7 +24,6 @@
 }
 
 .brand {
-  margin-top: 13px;
   height: 80px;
   width: auto;
 }
@@ -96,6 +95,7 @@
   padding-top: 80px;
   box-shadow: 3px 0 10px rgba(0,0,0,0.15);
   transition: 0.3s ease;
+  margin-top: 10px;
   z-index: 1100;
 }
 

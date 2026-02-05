@@ -1,0 +1,36 @@
+<section class="container" >
+  <div class="row justify-content-center mt-4">
+    <form [formGroup]="categoryForm!" (ngSubmit)="onSubmit()">
+         <div class="mb-3">
+            <a href="https://www.image2url.com/" target="_blank">Convert Image to URL</a>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" formControlName="name" placeholder="Name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Image</label>
+          <input type="text" class="form-control" formControlName="image1" placeholder="Image Url">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Image 2</label>
+          <input type="text" class="form-control" formControlName="image2" placeholder="Image Url">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Type</label>
+          <input type="text" class="form-control" formControlName="type" placeholder="Same as Name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Caterogy</label>
+          <select class="form-select form-select mb-3" aria-label="Select category Type"
+          formControlName="categorie">
+          <option value="" disabled selected>Select a category type</option>
+          <option value="Men">Men</option>
+          <option value="Women">Women</option>
+          <option value="kids">Kids</option>
+        </select>
+        </div>
+  
+    </form>
+  </div>
+</section>

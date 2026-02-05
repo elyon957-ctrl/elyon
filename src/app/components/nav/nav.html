@@ -1,4 +1,4 @@
-<section class="container-fluid p-0">
+<section class="container-fluid">
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid nav-inner">
 
@@ -22,35 +22,45 @@
 
       <!-- CENTER LOGO -->
       <div class="brand-wrapper">
-        <img class="brand" src="logo.png" alt="ELYON logo" />
+        <img class="brand" src="Frame 5.png" alt="ELYON logo" />
       </div>
 
       <!-- RIGHT ICONS -->
       <ul class="navbar-nav flex-row align-items-center">
-         <li class="nav-item" (click)="searchBar()">
-          @if(!bar){
-            <a class="nav-link">
-              <i class="fas fa-search"></i>
+        <!-- <li class="nav-item d-none d-md-flex" (click)="searchBar()">
+           <form class="d-flex" role="search" style="width: 150px;">
+           <input class="form-control search" type="search" placeholder="Search" aria-label="Search"/>
+           <a class="nav-link" type="submit">
+             <i class="fas fa-search"></i>
+           </a>
+         </form>
+       </li> -->
+       @if(isLoggedIn){
+         <li class="nav-item d-none d-md-flex">
+            <a class="nav-link" style="font-size: 14px;"
+              [routerLink]="'/orders'"
+               routerLinkActive="active">
+              {{ "My Order" | uppercase }}
             </a>
-          }
-          @if(bar){
-            <form class="d-flex" role="search">
-            <input class="form-control search" type="search" placeholder="Search" aria-label="Search"/>
-            <a class="nav-link" type="submit">
-              <i class="fas fa-search"></i>
-            </a>
-          </form>}
-        </li>
+          </li>
+        }
 
         <!-- Wishlist -->
-        <li class="nav-item">
+        <!-- <i class="far fa-heart"></i> -->
+          @if(!isLoggedIn){
+        <li class="nav-item d-none d-md-flex" (click)="openAuthModal()">
           <a class="nav-link">
-            <!-- <i class="far fa-heart"></i> -->
              <i class="fa-solid fa-heart" style="color: #ff0000;"></i>
           </a>
-        </li>
+        </li>}
+          @if(isLoggedIn){
+        <li class="nav-item d-none d-md-flex" (click)="navto('wishlist')">
+          <a class="nav-link">
+             <i class="fa-solid fa-heart" style="color: #ff0000;"></i>
+          </a>
+        </li>}
         <!-- CART -->
-        <li class="nav-item me-3">
+        <li class="nav-item">
            @if(!isLoggedIn){
           
           <a class="nav-link position-relative" (click)="openAuthModal()">
@@ -83,29 +93,24 @@
         </li>
 
         <!-- ADMIN -->
-        @if(auth.userDetails?.role === 'Admin'){
+        <!-- @if(auth.userDetails?.role === 'Admin'){
           <li class="nav-item me-3">
             <a class="nav-link" [routerLink]="['/adminhome']">
               <i class="fas fa-laptop-code"></i>
             </a>
           </li>
-        }
+        } -->
 
         <!-- PROFILE (Desktop only) -->
         @if(isLoggedIn){
-          <li class="nav-item me-3 d-none d-md-flex align-items-center">
-            <img
-              src="https://mdbootstrap.com/img/new/avatars/1.webp"
-              class="rounded-circle"
-              height="24"
-              alt="profile"
-            />
+          <li class="nav-item me-1 d-none d-md-flex">
             <strong class="ms-2">
-              {{ auth.userDetails?.name }}
-            </strong>
+  {{ auth.userDetails?.name | slice:0:2 }}
+</strong>
           </li>
 
           <!-- LOGOUT (Desktop only) -->
+           
           <li class="nav-item d-none d-md-flex">
             <a class="nav-link" (click)="logout()">
               <i class="fas fa-sign-out-alt"></i>
@@ -143,16 +148,15 @@
 <div class="mobile-menu" [class.open]="menuOpen">
   <ul>
     @if(isLoggedIn==true){
-    <li class="mobile-profile" style="padding-bottom: 50px;">
-     <img
-       src="https://mdbootstrap.com/img/new/avatars/1.webp"
-       class="rounded-circle"
-       height="40"
-       alt="profile"
-     />
+    <li class="mobile-profile" style="font-weight: bolder; font-size: 30px;">
      <span>{{auth.userDetails?.name}}</span>
    </li>
     }
+    <!-- <li class="nav-item d-md-none" >
+           <form class="d-flex" role="search" style="width: 150px;">
+           <input class="form-control search" type="search" placeholder="Search" aria-label="Search"/>
+         </form>
+       </li> -->
     @for(item of nav; track item){
       <li (click)="closeMenu()">
         <a [routerLink]="item.link ? [item.link] : ['/mens']">
@@ -160,6 +164,13 @@
         </a>
       </li>
     }
+    
+
+        <!-- Wishlist -->
+        <li class="nav-ite md-md-none" (click)="navto('wishlist')" >
+          <i class="far fa-heart"></i>
+          Wishlist
+        </li>
 @if(isLoggedIn==true){
     <!-- Mobile Logout -->
     <li class="mobile-logout" (click)="logout(); closeMenu()" style="color: red;">

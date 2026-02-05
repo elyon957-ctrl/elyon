@@ -18,6 +18,7 @@ export class AuthModalComponent {
   email = '';
   password = '';
   name = '';
+  gender = '';
 
     errorMessage= ""
 
@@ -65,7 +66,7 @@ confirmPassword: string = '';
 
   async handleSignup(): Promise<void> {
     this.errorMessage = '';
-   await this.authService.register(this.email, this.password, this.name)
+   await this.authService.register(this.email, this.password, this.name,this.gender)
     .then(() => {
       this.isLoading = false;
       this.close();                
@@ -106,7 +107,8 @@ confirmPassword: string = '';
       console.log('Signup attempt:', {
         name: this.name,
         email: this.email,
-        password: '***'
+        password: '***',
+        gender:this.gender
       });
       this.isLoading = false;
     }, 1500);

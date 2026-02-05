@@ -1,59 +1,74 @@
-<section style="height: 100vh;">
-@if (!isLoading) {
+<section class="cart-page" style="margin-top: 60px;">
+
+  @if (!isLoading) {
+
+    @if(cartItems.length === 0) {
+    
+        <!-- EMPTY CART -->
+        <div class="empty-cart-wrapper">
+          <div class="empty-cart">
+    
+            <img
+              class="empty-img"
+              src="https://image2url.com/r2/default/images/1770056624221-6a586d49-52d0-46b8-b351-3b78b0f7dd21.png"
+              alt="Empty Cart"
+            />
+    
+            <h2 class="empty-title">YOUR BAG IS EMPTY</h2>
+    
+            <p class="empty-sub">
+              Your cart is ready to roll, but it’s feeling a bit empty without some stylish finds.
+            </p>
+    
+            <div class="empty-actions">
+              <a routerLink="/mens-home" class="start-btn" routerLink="/mens">START SHOPPING</a>
+              <a routerLink="/wishlist" class="wish-btn">ADD FROM WISHLIST</a>
+            </div>
+    
+          </div>
+        </div>
+    
+        }
   <div class="container">
-    <!-- Left section -->
     @if (cartItems.length > 0) {
+
+    <!-- LEFT -->
     <div class="left">
       @for (item of cartItems; track $index) {
-          <div class="product">
-            <img [src]="item.image" [alt]="item?.name" />
-            <div class="details">
-              <h3>{{ item?.name }}</h3>
-              <p>Number of: {{ item?.quantity }}</p>
-              <p>Size: {{ item?.units.label}}</p>
-              
-              <p>
-                <span class="price">₹ {{ item?.price }}</span>
-              </p>
-              
-              <div class="actions">
-                <button class="qty-btn" (click)="decreaseQuantity(item,item?.id)">-</button>
-                <!-- <button class="qty-btn" (click)="decreaseQuantity(item)">-</button> -->
-                <span class="fw-semibold">{{item.quantity}}</span>
-                <!-- <button class="qty-btn" (click)="increaseQuantity(item)">+</button> -->
-                <button class="qty-btn" (click)="increaseQuantity(item)">+</button>
-                
-              <button
-              style="margin-left: 15px; background: none; border: none; color: #222; font-weight: 600; cursor: pointer;"
-              (click)="removeItem(item?.id)"
-              >
-              REMOVE
-            </button>
+
+      <div class="product">
+        <img [src]="item.image" [alt]="item?.name" />
+
+        <div class="details">
+          <h3>{{ item?.name }}</h3>
+          <p>Size: {{ item?.units.label }}</p>
+          <p class="price">₹ {{ item?.price }}</p>
+
+          <div class="actions">
+            <button class="qty-btn" (click)="decreaseQuantity(item,item?.id)">−</button>
+            <span class="qty">{{ item.quantity }}</span>
+            <button class="qty-btn" (click)="increaseQuantity(item)">+</button>
+            <button class="remove" (click)="removeItem(item?.id)">REMOVE</button>
           </div>
         </div>
       </div>
-    }
-    
-    <div class="bottom-actions">
-      <button class="place-btn" (click)="buyItem()">PLACE ORDER</button>
-    </div>
-  </div>
-} @else{
-  <div class="left">
-    <div class="empty-cart">
-          <h3>Your cart is empty</h3>
-          <p>Start adding products to place your order!</p>
-        </div>
-  </div>
-}
 
-    <!-- Right section -->
+      }
+
+      <div class="bottom-actions">
+        <button class="place-btn" (click)="buyItem()">
+          PAY ₹{{ total + 5 }}
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
     <div class="right">
       <div class="price-details">
         <h4>PRICE DETAILS</h4>
 
         <div class="price-item">
-          <span>Price</span>
+          <span>Bag Total</span>
           <span>₹{{ total }}</span>
         </div>
 
@@ -69,14 +84,22 @@
       </div>
 
       <div class="secure">
-        <i>🔒</i>
-        <span>Safe and Secure Payments. Easy returns. 100% Authentic products.</span>
+        🔒 Safe & Secure Payments. Easy returns. 100% Authentic products.
       </div>
     </div>
+
+    }
+    
+
   </div>
-} @else {
+
+  }
+  @else {
+
   <div class="loading">
-    <p>Loading your cart...</p>
+    Loading your cart...
   </div>
-}
+
+  }
+
 </section>

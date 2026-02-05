@@ -1,83 +1,85 @@
-<div class="shop-container">
-  <!-- LEFT FILTER -->
-  <aside class="filter-panel">
-    <h3>Filters</h3>
-
-    <!-- Price -->
-    <!-- <div class="filter-group">
-      <h4>Price</h4>
-      <label><input  type="radio" name="price" value="0" [(ngModel)]="selectedPrice"> ₹</label>
-      <label><input  type="radio" name="price" value="499" [(ngModel)]="selectedPrice"> ₹0 – ₹499</label>
-      <label><input type="radio" name="price" value="999" [(ngModel)]="selectedPrice"> ₹500 – ₹999</label>
-      <label><input type="radio" name="price" value="2000" [(ngModel)]="selectedPrice"> ₹1000+</label>
-    </div> -->
-    <!-- Color -->
-    <div class="filter-group">
-
-      <h4>Color</h4>
-      <label><input type="radio" name="color" value="All" [(ngModel)]="selectedColor">All</label>
-      <label><input type="radio" name="color" value="Black" [(ngModel)]="selectedColor">Black</label>
-      <label><input type="radio" name="color" value="White" [(ngModel)]="selectedColor">White</label>
-      <label><input type="radio" name="color" value="Blue" [(ngModel)]="selectedColor">Blue</label>
-      <label><input type="radio" name="color" value="Red" [(ngModel)]="selectedColor">Red</label>
+<!-- ===== HERO SECTION ===== -->
+<section class="hero" style="margin-top: 60px;">
+  <h1 class="big-text">{{Categories.type}}</h1>
+  <div class="row">
+    <div class="col">
+      <p style="cursor: pointer; padding: 15px; color: blue; font-weight:bold;" (click)="navto('mens')"><i class="fa-solid fa-angles-left"></i> Back to Home</p>
     </div>
-  </aside>
+    <div class="col">
+      <button class="filter-btn" (click)="toggleFilter()">
+        <i class="fa-solid fa-filter"></i> Filter
+      </button>
+    </div>
+  </div>
+  <div class="grid">
 
-  <!-- RIGHT PRODUCTS -->
-  <section class="product-section">
-    <h3>{{Categories.type}} </h3>
-    <div class="product-grid">
-      @for(item of products;track $index){
-        @if(Categories.type === item.category){
-          @if(selectedColor === item.color){
-            <div class="product-card" (click)="openProduct(item)">
-              @if(item.discount){
-                <span class="badge text-bg-success top-0 start-0 m-2">
-                  {{ item.discount }}% OFF
-                </span>
-              }
-              <img src="{{item.image}}" alt="product">
-              <h5>{{ item.name }}</h5>
-              <span class="fw-semibold">₹{{ item.selectedPrice }}</span>
-              <small class="text-muted text-decoration-line-through ms-1">
-                ₹{{ item.selectedActualPrice }}
-              </small>
-            </div>
+    @for (item of products; track $index) {
+
+      @if (
+        Categories.type === item.category &&
+        (!selectedColor || selectedColor === 'All' || selectedColor === item.color)
+      ) {
+
+        <div class="card offer-card" >
+
+          @if (item.discount) {
+            <span class="offer-badge">
+              {{ item.discount }}% OFF
+            </span>
           }
-          @if(!selectedColor){
-            <div class="product-card" (click)="openProduct(item)">
-              @if(item.discount){
-                <span class="badge text-bg-success top-0 start-0 m-2">
-                  {{ item.discount }}% OFF
-                </span>
-              }
-              <img src="{{item.image}}" alt="product">
-              <h5>{{ item.name }}</h5>
-              <span class="fw-semibold">₹{{ item.selectedPrice }}</span>
-              <small class="text-muted text-decoration-line-through ms-1">
-                ₹{{ item.selectedActualPrice }}
-              </small>
-            </div>
+             @if(!isLoggedIn){
+            <button class="trending__wish" (click)="openAuthModal()">♡</button> 
           }
-          @if(selectedColor==="All"){
-            <div class="product-card" (click)="openProduct(item)">
-              @if(item.discount){
-                <span class="badge text-bg-success top-0 start-0 m-2">
-                  {{ item.discount }}% OFF
-                </span>
-              }
-              <img src="{{item.image}}" alt="product">
-              <h5>{{ item.name }}</h5>
-              <span class="fw-semibold">₹{{ item.selectedPrice }}</span>
-              @if(item.selectedActualPrice){
-                <small class="text-muted text-decoration-line-through ms-1">
-                  ₹{{ item.selectedActualPrice }}
-                </small>
-              }
-            </div>
+          @if(isLoggedIn){
+            <button class="trending__wish" (click)="addProduct(item)">♡</button>
           }
-        }
+            <div (click)="openProduct(item)">
+
+              <div class="img-wrap">
+                <img [src]="item.image" loading="lazy" />
+              </div>
+              
+              <div class="card-info" style="text-align: center;">
+                <h4 class="product-name">{{ item.name }}</h4>
+                
+                <div class="price-row">
+                  <p class="price">₹{{ item.selectedPrice }}</p>
+                  
+                  @if (item.selectedActualPrice) {
+                    <p class="actual-price">
+                      ₹{{ item.selectedActualPrice }}
+                    </p>
+                  }
+                </div>
+              </div>
+          </div>
+
+        </div>
+
       }
-    </div>
-  </section>
+    }
+
+  </div>
+</section>
+
+
+
+
+<!-- FILTER PANEL -->
+<div class="filter-panel" [class.open]="showFilter">
+  <h4>Color</h4>
+      <label><input type="radio" name="color" value="All" [(ngModel)]="selectedColor">All</label>
+      @for(c of color;track $index){
+       <label class="color-option">
+  <input
+    type="radio"
+    name="color"
+    [value]="c.name"
+    [(ngModel)]="selectedColor"
+    (change)="onColorChange(c)"
+  />
+  <!-- <span class="color-box" [style.background]="c.color"></span> -->
+  <span class="color-name">{{ c.name }}</span>
+</label>
+      }
 </div>

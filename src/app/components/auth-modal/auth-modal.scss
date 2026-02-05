@@ -152,7 +152,7 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 
 // Header
 .login-header {
-  margin-bottom: 32px;
+  margin-bottom: 10px;
   text-align: center;
 
   .logo {
@@ -160,14 +160,8 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-bottom: 24px;
-    font-size: 18px;
-    font-weight: 700;
+    margin-bottom: 8px;
     color: $text-primary;
-
-    svg {
-      display: block;
-    }
 
     span {
       background: linear-gradient(135deg, $primary, $secondary);
@@ -177,16 +171,16 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     }
   }
 
-  h1 {
-    font-size: 28px;
+ h3 {
+    font-size: 20px;
     font-weight: 700;
     color: $text-primary;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     letter-spacing: -0.5px;
   }
 
   p {
-    font-size: 14px;
+    font-size: 10px;
     color: $text-secondary;
   }
 }
@@ -659,7 +653,7 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 
 // Header
 .signup-header {
-  margin-bottom: 28px;
+  margin-bottom: 10px;
   text-align: center;
 
   .logo {
@@ -667,14 +661,8 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-bottom: 20px;
-    font-size: 18px;
-    font-weight: 700;
+    margin-bottom: 8px;
     color: $text-primary;
-
-    svg {
-      display: block;
-    }
 
     span {
       background: linear-gradient(135deg, $primary, $secondary);
@@ -684,16 +672,16 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     }
   }
 
-  h1 {
-    font-size: 28px;
+  h3 {
+    font-size: 20px;
     font-weight: 700;
     color: $text-primary;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     letter-spacing: -0.5px;
   }
 
   p {
-    font-size: 14px;
+    font-size: 10px;
     color: $text-secondary;
   }
 }

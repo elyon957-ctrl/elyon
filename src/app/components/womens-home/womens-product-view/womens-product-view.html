@@ -1,73 +1,195 @@
-<div class="container">
-  <div class="row align-items-start">
+<div class="product-container" style="margin-top: 60px;">
+  <div class="product-wrapper">
+    <div class="product-grid">
+      <!-- Image Gallery -->
+      <div class="gallery-section">
+        <!-- Main Image -->
+        <div class="main-image">
+  @if (productImages().length > 0) {
+    <img
+      [src]="productImages()[selectedImageIndex()]"
+      [alt]="product?.name"
+    />
+  } @else {
+    <img src="assets/no-image.png" alt="No image" />
+  }
 
-    <!-- Image 1 -->
-    <div class="col-6 col-md-4">
-      <img
-        class="img-fluid"
-        src="{{product.image}}"
-        alt="Product image"
-        />
-    </div>
-    
-    <!-- Image 2 -->
-    <div class="col-6 col-md-4">
-        <img
-        class="img-fluid"
-        src="{{product.image2}}"
-        alt="Product image"
-      />
-    </div>
 
-    <!-- Details -->
-    <div class="col-12 col-md-4">
-      <div class="details">
-        <h1>{{product.name}}</h1>
-        <p class="subtitle">Oversized T-Shirts</p>
-
-        <div class="price">
-          <span class="current">₹{{ product.selectedPrice }}</span>
-          <span class="old"> ₹{{ product.selectedActualPrice }}</span>
-          <span class="off">{{ product.discount }}% OFF</span>
-        </div>
-
-        <p class="tax">Price inclusive of all taxes</p>
-<!-- 
-        <div class="variants">
-          <strong>Shop by Variant / Look</strong>
-          <div class="variant-list">
-            <div>
-           
-            </div>
-          </div>
-        </div> -->
-
-        <div class="sizes">
-          <strong>Please select a size</strong>
-          <div class="size-list">
-             <div>
-                <select
-                class="form-select form-select-sm unit-select"
-                (change)="onUnitChange(product, $event)"
-              >
-                @for (unit of product.units; track $index) {
-                  <option [value]="$index">{{ unit.label }}</option>
-                }
-              </select>
-            </div>
+          <div class="discount-badge">
+            -{{ product.discount }}%
           </div>
         </div>
-
-        <div class="actions">
-           @if(!isLoggedIn){
-            <button class="btn primary" (click)="openAuthModal()">ADD TO CART</button>
-          }@else{
-            <button class="btn primary" (click)="addProduct(product)">ADD TO CART</button>
+        
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery">
+          @for (image of productImages(); track $index; let i = $index) {
+           <button
+  type="button"
+  (click)="selectedImageIndex.set(i)"
+  class="thumbnail-btn"
+  [class.active]="selectedImageIndex() === i"
+>
+              <img 
+                [src]="image" 
+                [alt]="'Product view ' + (i + 1)"
+              />
+            </button>
           }
         </div>
       </div>
-    </div>
 
+      <!-- Product Details -->
+      <div class="details-section">
+        <!-- Category Badge -->
+        <div class="category-badge">
+          <!-- <span>{{ product.category }}</span> -->
+        </div>
+
+        <!-- Title -->
+        <div class="product-title">
+          <h1>{{ product.name }}</h1>
+        </div>
+
+        <!-- Rating and Reviews -->
+        <!-- <div class="rating-section">
+          <div class="stars">
+            @for (star of [1, 2, 3, 4, 5]; track $index) {
+              <svg
+                [class.star-filled]="star <= Math.floor(product().rating)"
+                [class.star-empty]="star > Math.floor(product().rating)"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            }
+          </div>
+          <a class="review-count-link" routerLink="/reviews">{{ product().reviews }} reviews</a>
+        </div> -->
+
+        <!-- Price Section -->
+        <div class="price-section">
+          <span class="current-price">₹{{ product.selectedPrice }}</span>
+          <span class="original-price">₹{{ product.selectedActualPrice }}</span>
+          <span class="savings">Save ${{ (product.selectedPrice - product.selectedActualPrice).toFixed(2) }}</span>
+        </div>
+
+        <!-- Description -->
+        <!-- <div class="description">
+          <p>{{ product.description }}</p>
+        </div> -->
+
+        <!-- Features -->
+        <!-- <div class="features-section">
+          <h3>Key Features:</h3>
+          <ul>
+            @for (feature of product().features; track $index) {
+              <li>
+                <svg fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                {{ feature }}
+              </li>
+            }
+          </ul>
+        </div> -->
+
+        <!-- Stock and Variants -->
+        <div class="stock-section">
+          <!-- <div class="stock-info">
+            <span class="stock-label">In Stock:</span>
+            <span class="stock-count">{{ product().stock }}</span>
+          </div> -->
+          
+          <!-- Size/Variant Selection -->
+            <!-- <div class="variant-section">
+              <label>Choose Size:</label>
+              <div class="variant-buttons">
+                @for (unit of product.units; track $index) {
+                  <button 
+                     (change)="onUnitChange(product, $event)"
+                    [class.active]="selectedVariant() === unit.label"
+                  >
+                {{ unit.label }}
+                  </button>
+                }
+              </div>
+            </div> -->
+   
+ <div class="variant-section">
+  <label>Choose Size:</label>
+
+  <div class="variant-buttons">
+    @for (unit of product.units; track $index) {
+      <button
+        type="button"
+        [value]="$index"
+        (click)="onUnitChange(product, $event)"
+        [class.active]="product.selectedUnitIndex === $index"
+      >
+        {{ unit.label}}
+      </button>
+    }
+  </div>
+</div>
+
+
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button class="btn btn-primary" (click)="addProduct(product)">
+            Add to Cart
+          </button>
+          <a class="btn btn-secondary" (click)="addProductWishlist(product)">
+            ♡ Add to Wishlist
+          </a>
+        </div>
+
+        <!-- Shipping Info -->
+        <div class="shipping-info">
+          <div class="row">
+            <div class="col">
+              <div class="shipping-item">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <div class="shipping-content">
+                  <p>Free Shipping</p>
+                  <p>On orders over ₹500</p>
+                </div>
+              </div>
+
+            </div>
+            <div class="col">
+              <div class="shipping-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div class="shipping-content">
+              <p>5-Day Returns</p>
+              <p>Easy exchanges</p>
+            </div>
+          </div>
+            </div>
+            <div class="col">
+              <div class="shipping-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div class="shipping-content">
+              <p>100% Quality</p>
+              <p>Complete peace of mind</p>
+            </div>
+          </div>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -76,27 +198,41 @@
 
 
 
-<div class="carousel-wrapper">
-  <button class="nav left" (click)="prev()">‹</button>
 
-  <div class="carousel">
-    <div
-      class="carousel-track"
-      [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
-    >
-      @for (group of groupedProducts; track $index) {
-        <div class="carousel-slide">
-          @for (p of group; track $index) {
-            <div class="product-card">
-              <img [src]="p.image" />
-              <h5>{{ p.name }}</h5>
-              <p>₹{{ p.selectedPrice }}</p>
-            </div>
+
+    <section class="trending">
+      <h2 class="trending__title">Trending Now</h2>
+      
+      <div class="trending__track-wrap">
+        
+        <button class="trending__arrow trending__arrow--left" (click)="scrollTrending(-1)">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        
+        
+        <div class="trending__track" #trendingTrack>
+          @for(item of products; track item.id) {
+            @if((item.categorytype === "Women") && (product.category === item.category)) {
+              <div class="trending__card" (click)="openProduct(item)">
+                <div class="trending__img-wrap">
+                  <img [src]="item.image" [alt]="item.name" />
+                  @if(!isWishlisted){
+
+                    <button class="trending__wish" (click)="toggleWishlist($event)"><i class="fa-solid fa-heart"></i></button>
+                  }
+                  @if(isWishlisted){
+
+                    <button class="trending__wish" (click)="toggleWishlist($event)"> <i class="fa-solid fa-heart" style="color: #ff0000;"></i></button>
+                  }
+                </div>
+                <p class="trending__name">{{ item.name }}</p>
+                <p class="trending__price">₹{{ item.selectedPrice || item.price}}</p>
+              </div>
+            }
           }
         </div>
-      }
-    </div>
-  </div>
-
-  <button class="nav right" (click)="next()">›</button>
-</div>
+        <button class="trending__arrow trending__arrow--right" (click)="scrollTrending(1)">
+          <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </section> 

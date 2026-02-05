@@ -1,0 +1,69 @@
+<div class="products" style="margin-top:60px ;">
+    <!-- Page Header -->
+    <div class="products-header">
+        <div class="header-text">
+            <h2>Banner</h2>
+            <p>Manage your product Categories details.</p>
+        </div>
+        <button class="btn btn-primary" (click)="openModal()" routerLinkActive="router-link-active">
+            <span>Add Banner</span>
+        </button>
+    </div>
+
+    <!-- Products Table -->
+    <div class="products-table-card">
+        <div class="table-header">
+            <h3>Banner List</h3>
+
+        </div>
+        <div class="row g-3">
+            @for (b of Banner; track $index) {
+            <div class="col-12 col-md-4">
+                <div class="banner-card">
+
+                    <img [src]="b.url" alt="Banner Image" class="img-fluid banner-img" />
+
+                    <div class="product-actions">
+                        <button class="btn-icon" title="Edit" (click)="openModal(b); $event.stopPropagation()">
+                            ✏️
+                        </button>
+
+                        <button class="btn-icon" title="Delete" (click)="remove(b.id); $event.stopPropagation()">
+                            🗑️
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:60px ;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            {{ selectedbanner ? 'Edit Product' : 'Add New Product' }}
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <app-add-banner [editbanner]="selectedbanner"></app-add-banner>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="saveProduct()">
+            {{ selectedbanner ? 'Update' : 'Add' }} Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,17 +1,54 @@
-@if(isloading){
+@if(!isloading){
   <section style="margin-top: 58px;">
     <section class="hero">
-      <div class="hero__left">
-        <img [src]="Banner[0]?.url" alt="hero left" />
-        <div class="hero__caption">
-          <span>Shop the denim edit</span>
+      @if(mensHeroBanners.length > 0){
+        <div class="hero__left">
+          <img [src]="mensHeroBanners[0]?.url" alt="hero left" />
+          <div class="hero__caption">
+            <span>Shop the denim edit</span>
+          </div>
         </div>
-      </div>
+      }
+      @if(mensHeroBanners.length > 1){
       <div class="hero__right">
-        <img [src]="Banner[1]?.url" alt="hero right" />
-      </div>
+        <img [src]="mensHeroBanners[1]?.url" alt="hero right" />
+      </div>}
     </section>
-    
+
+   <section class="neutrality-hero">
+
+  <h2 class="neutrality-title">Categories</h2>
+
+  <div class="neutrality-grid">
+    @for (item of productCategories; track $index) {
+         @if(item.categorie === "Men") {
+      <div class="trending__card" (click)="openProduct(item)">
+               <div class="trending__img-wrap">
+
+                   <img
+                   class="img-main"
+                   [src]="item.image1"
+                   [alt]="item.name"
+                   />
+                   
+                   
+                   <img
+                   class="img-hover"
+                   [src]="item.image2"
+                   [alt]="item.name"
+                   />
+                </div>
+                <h2 class="trending__name">{{ item.name }}</h2>
+        <!-- <img [src]="item.image1" loading="lazy" /> -->
+      </div>
+    }
+    }
+  </div>
+
+</section>
+
+
+<!-- 
     <section class="trending">
       <h2 class="trending__title">Trending Now</h2>
       
@@ -28,7 +65,14 @@
               <div class="trending__card" (click)="openProduct(item)">
                 <div class="trending__img-wrap">
                   <img [src]="item.image1" [alt]="item.name" />
-                  <button class="trending__wish" (click)="$event.stopPropagation()">♡</button>
+                  @if(!isWishlisted){
+
+                    <button class="trending__wish" (click)="toggleWishlist($event)"><i class="fa-solid fa-heart"></i></button>
+                  }
+                  @if(isWishlisted){
+
+                    <button class="trending__wish" (click)="toggleWishlist($event)"> <i class="fa-solid fa-heart" style="color: #ff0000;"></i></button>
+                  }
                 </div>
                 <p class="trending__name">{{ item.name }}</p>
                 <p class="trending__price">₹{{ item.selectedPrice || item.price || 999 }}</p>
@@ -36,10 +80,13 @@
             }
           }
         </div>
-        <!-- <div class="trending__track" #trendingTrack>
+
+
+
+        <div class="trending__track" #trendingTrack>
   @for(item of productCategories; track item.id) {
     @if(item.categorie === "Men") {
-      <div class="trending__card" (click)="openProduct(item)">
+      <div class="trending__card">
         <div class="trending__img-wrap">
         
           <img
@@ -63,6 +110,7 @@
           </button>
         </div>
 
+
         <p class="trending__name">{{ item.name }}</p>
         <p class="trending__price">
           ₹{{ item.selectedPrice || item.price || 999 }}
@@ -70,7 +118,7 @@
       </div>
     }
   }
-</div> -->
+</div>
 
         
         
@@ -78,14 +126,107 @@
           <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </div>
-    </section>
+    </section> -->
+
+    <section>
+
+  @for (productCategory of productCategories; track $index) {
+
+    @if (productCategory.categorie === 'Men') {
+
+      <!-- Category Header -->
+      <div
+        style="
+          margin-top: 20px;
+          background-color: var(--primary);
+          border-radius: 10px;
+          border-top: 5px solid var(--body-primary);
+          border-bottom: 5px solid var(--body-primary);
+        "
+      >
+        <h3 style="padding: 10px; color: var(--body-primary)">
+          {{ productCategory.name }}
+        </h3>
+      </div>
+
+      <!-- Products Grid -->
+
+        <div class="grid" >
+        @for (item of products; track $index) {
+
+          @if (item.category === productCategory.type) {
+
+
+
+
+
+        <div class="card offer-card" >
+
+          @if (item.discount) {
+            <span class="offer-badge">
+              {{ item.discount }}% OFF
+            </span>
+          }
+          @if(!isLoggedIn){
+            <button class="trending__wish" (click)="openAuthModal()">♡</button> 
+          }
+          @if(isLoggedIn){
+            <button class="trending__wish" (click)="addProduct(item)">♡</button>
+          }
+            <div (click)="openProduct(productCategory)">
+
+              <div class="img-wrap">
+                <img [src]="item.image" loading="lazy" />
+              </div>
+              
+              <div class="card-info" style="text-align: center;">
+                <h4 class="product-name">{{ item.name }}</h4>
+                
+                <div class="price-row">
+                  <p class="price">₹{{ item.selectedPrice }}</p>
+                  
+                  @if (item.selectedActualPrice) {
+                    <p class="actual-price">
+                      ₹{{ item.selectedActualPrice }}
+                    </p>
+                  }
+                </div>
+              </div>
+          </div>
+
+        </div>
+
+      }
     
+
+      
+    }
+</div>
+
+<a (click)="openProduct(productCategory)" style="display: block; text-align: end; margin-top: 10px; color: #007bff; cursor: pointer; margin-right: 20px;"> View More ...</a>
+    }
+  }
+
+</section>
+
     <section class="running-banner">
       
       <div class="track">
         
         
         @for(item of Banner; track $index){
+          @if(item.category === "Men"){
+            <div class="banner-box">
+              <img [src]="item.url" />
+              <div class="overlay">
+                <h2>{{ item.title || 'COLLECTION' }}</h2>
+                <button>SHOP NOW</button>
+              </div>
+            </div>
+          }
+        }
+        @for(item of Banner; track $index){
+            @if(item.category === "Men"){
           <div class="banner-box">
             <img [src]="item.url" />
             <div class="overlay">
@@ -94,16 +235,6 @@
             </div>
           </div>
         }
-        
-        
-        @for(item of Banner; track $index){
-          <div class="banner-box">
-            <img [src]="item.url" />
-            <div class="overlay">
-              <h2>{{ item.title || 'COLLECTION' }}</h2>
-              <button>SHOP NOW</button>
-            </div>
-          </div>
         }
         
       </div>

@@ -1,52 +1,13 @@
+<section class="coming-soon">
+  <div class="coming-card">
+    <h1>Coming Soon</h1>
+    <p>
+      We’re cooking something fresh 🔥  
+      Stay tuned — it’s worth the wait.
+    </p>
 
-<!-- <button class="btn btn-primary" (click)="openBox()">Add the Banner</button> -->
+    <div class="divider"></div>
 
-<div class="carousel-inner">
-  <mdb-carousel [controls]="false" [indicators]="true" [animation]="'fade'" [interval]="3000">
-    @for(item of Banner;track $index){
-
-    <mdb-carousel-item>
-      <img src="{{ item.url }}" class="img-reduced" alt="..." />
-      <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-      </div>
-    </mdb-carousel-item>
-    }
-  </mdb-carousel>
-</div>
-
-<div class="container my-4">
-    
-  <div class="row g-3">
-    @for (item of productCategories; track $index) {
-      @if(item.categorie === "kids"){
-      <div class="col-6 col-md-4 col-lg-3">
-        <div class="card shadow-sm border-0 h-100 product-card" (click)="openProduct(item)">
-
-          <!-- Image + Discount -->
-          <div class="position-relative">
-            <img
-              [src]="item.image1"
-              class="card-img-top product-img"
-              alt="product"
-            />
-          </div>
-
-          <!-- Body -->
-          <div class="card-body d-flex flex-column p-2">
-
-            <!-- Product name -->
-            <h6 class="fw-semibold text-center mb-2">
-              {{ item.name }}
-            </h6>
-
-          </div>
-        </div>
-      </div>
-    }
-}
-  </div>  
-</div>
-
-
+    <span class="brand">Elyon</span>
+  </div>
+</section>

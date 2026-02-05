@@ -1,112 +1,183 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { FirestoreService } from '../../services/firestore.service';
 import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
-import { FormBuilder,FormsModule, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
+import { FormBuilder, FormsModule, Validators } from '@angular/forms';
+
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Login } from '../login/login';
+
 import { MdbModalModule, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+declare var bootstrap: any;
 
 @Component({
-  imports: [MdbCarouselModule,FormsModule,MdbCollapseModule,MdbModalModule],
+  imports: [MdbCarouselModule,FormsModule,MdbCollapseModule,MdbModalModule,CommonModule],
   selector: 'app-womens-home',
   templateUrl: './womens-home.html',
   styleUrl: './womens-home.scss',
 })
 export class WomensHome implements OnInit {
 
-  private firestore=inject(FirestoreService)
-  private auth=inject(AuthService)
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
- private modalService =inject(MdbModalService);
-Banner: any[] =[{}];
-products:any[] =[];
-tabs:any[] =[];
-name:any;
-isLoggedIn = false;
-userId:any
-quantity: number = 1; 
+
+  @ViewChild('trendingTrack') trendingTrack!: ElementRef<HTMLDivElement>;
+
+
+  private firestore  = inject(FirestoreService);
+  private auth       = inject(AuthService);
+  private fb         = inject(FormBuilder);
+  private router     = inject(Router);
+  private modalService = inject(MdbModalService); 
+
+  private route = inject(ActivatedRoute);
+
+
+
+  Banner: any[]            = [];
+  isLoggedIn               = false;
+  userId: any;
+  promobanner: any;
+  productCategories: any[] = [];
+   isloading = false;
+   products: any[] = [];
 
   ngOnInit(): void {
-   this.auth.isLoggedIn$.subscribe(status => {
-    this.isLoggedIn = status;
-    console.log(status)
-  });
-  this.userId=this.auth.userDetails?.id;
-    this.getBanner();
-   this.getProducts();
-   this.getCategoryProducts();
+    this.route.params.subscribe(async params => {
+      this.isloading = true;
+      console.log('Route params:', params);
+      this.userId = this.auth.userDetails?.id;
+      console.log('User ID:', this.userId);
+      await this.getBanner();
+      await this.getCategoryProducts();
+      await this.getProduct();
+      await this.loadHeroBanners();
+      
+      this.isloading = false;
+    });
   }
-  getBanner(){
-    this.firestore.getList('Banner').subscribe({
-        next: (data: any[]) => {
-          this.Banner = data;
-          console.log('Fetching products for Banner :',data);
+  
+   @Input() product!: any;
+
+  isWishlisted = false;
+
+
+  getBanner() {
+    return new Promise<void>((resolve, reject) => {
+      this.firestore.getList('TopBanner').subscribe({
+        next: (data: any[]) => { 
+          this.Banner = data; 
+          console.log('Banner data:', data);
+          resolve();
         },
-        error: (err: any) => {
-          console.error(' Error fetching Banner:', err);
+        error: (err: any)   => { 
+          console.error('Banner error:', err);
+          reject(err);
         }
       });
-      this.firestore.getList('Nav').subscribe((data: any[]) => {
-      this.tabs = data[0].sub  
-      })
-    }
+    }) 
+  }
+WomensHeroBanners: any[] = [];
 
-getProducts() {
-  this.firestore.getList('Products').subscribe((data: any[]) => {
-    this.products = data.map(product => {
-      const unit = product.units?.[0];
+loadHeroBanners() {
+  // 1️⃣ filter mens banners
+  const WomensBanners = this.Banner.filter(
+    (b: any) => b.category === 'Women'
+  );
 
-      return {
-        ...product,
-        selectedUnitIndex: 0,
-        selectedPrice: unit?.price || 0,
-        selectedActualPrice: unit?.actualPrice || 0,
-        discount: this.calcDiscount(unit?.price, unit?.actualPrice)
-      };
+  // 2️⃣ shuffle
+  const shuffled = [...WomensBanners].sort(() => 0.5 - Math.random());
+
+  // 3️⃣ take 2
+  this.WomensHeroBanners = shuffled.slice(0, 2);
+}
+
+getProduct() {
+  return new Promise<void>((resolve, reject) => {
+    this.firestore.getList('Products').subscribe({
+      next: (data: any[]) => {
+        const normalized = data.map(product => {
+          const defaultUnit =
+            product.units?.find((u: any) => u.label === 'M') ||
+            product.units?.[0];
+
+          return {
+            ...product,
+            selectedUnit: defaultUnit,
+            selectedUnitLabel: defaultUnit?.label,
+            selectedPrice: defaultUnit?.price,
+            selectedActualPrice: defaultUnit?.actualPrice
+          };
+        });
+
+        this.products = this.getRandomProducts(normalized, 4);
+
+        resolve();
+      },
+      error: (err: any) => {
+        console.error('products error:', err);
+        reject(err);
+      }
     });
   });
 }
-selectUnit="S"
-onUnitChange(item: any, event: Event) {
-  const index = +(event.target as HTMLSelectElement).value;
-  const unit = item.units[index];
-  this.selectUnit = item.units[index];
-  item.selectedUnitIndex = index;
-  item.selectedPrice = unit.price;
-  item.selectedActualPrice = unit.actualPrice;
-  item.discount = this.calcDiscount(unit.price, unit.actualPrice);
-}
-calcDiscount(price: number, actual: number): number {
-  if (!actual || !price) return 0;
-  return Math.round(((actual - price) / actual) * 100);
-}
- openLoginModal() {
-    this.modalService.open(Login, {
-      modalClass: 'modal-dialog-centered'
-    });
-  }
-openProduct(Categories: any) {
-  this.router.navigate(['/womensproduct', Categories.id],{
-      state: { Categories }}
-  )
+
+getRandomProducts(list: any[], count: number) {
+  return [...list]
+    .sort(() => 0.5 - Math.random())
+    .slice(0, count);
 }
 
-  productCategories: any[] = []
 
-  getCategoryProducts() {
-  this.firestore.getList('ProductCategory').subscribe({
-      next: (data) => {
-        this.productCategories = data 
-        console.log(' Product Categories fetched:', this.productCategories);
-      },
-      error: (err) => {
-        console.error(' Error fetching products:', err);
-      }
+ getCategoryProducts() {
+  return new Promise<void>((resolve, reject) => {
+    this.firestore.getList('ProductCategory').subscribe({
+      next: (data) => { this.productCategories = data; resolve(); },
+      
+      error: (err) => { console.error('ProductCategory error:', err); reject(err);  }
+    });
+  })
+}
+  openProduct(Categories: any) {
+    this.router.navigate(['/Womensproduct', Categories.id], {
+      state: { Categories }
     });
   }
+addProduct(item: any) {
+      const userId = this.auth.userDetails?.id;
+      this.firestore.set(`Users/${userId}/Wishlist/${item.id}`,item).then((msg: any) => {
+    Swal.fire({
+     position: 'center',
+     icon: 'success',
+     title: 'Added to Wishlist',
+     html: `
+       <div class="cart-anim">
+         <i class="fa-solid fa-heart" style="color: #ff0000;"></i>
+         <p>Product added successfully</p>
+       </div>
+     `,
+     showConfirmButton: false,
+     timer: 1200,
+     backdrop: 'rgba(0,0,0,0.4)',
+     customClass: {
+       popup: 'cart-toast'
+     }
+   });
+   
+       });
+   }
+openAuthModal() {
+  const modalEl = document.getElementById('authModal');
+  if (!modalEl) return;
+  let modal = bootstrap.Modal.getInstance(modalEl);
+  if (!modal) {
+    modal = new bootstrap.Modal(modalEl, {
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
+
+  modal.show();
+}
 
 }

@@ -2,8 +2,12 @@
  <app-nav></app-nav>
  <app-auth-modal></app-auth-modal>
  <router-outlet></router-outlet>
- 
- <app-footer></app-footer>
+ @if(authService.userDetails?.role === 'User' ){
+
+     <app-footer></app-footer>
+    }
 }@else {
-    
+    <div class="loading-container">
+    <div class="spinner"></div>
+    </div>
 }
