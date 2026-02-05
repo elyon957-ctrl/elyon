@@ -7,8 +7,9 @@ import Swal from 'sweetalert2';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Login } from '../login/login';
+// import { Login } from '../login/login';
 import { MdbModalModule, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { AuthModalComponent } from '../auth-modal/auth-modal';
 
 @Component({
   selector: 'app-kids-home',
@@ -86,7 +87,7 @@ calcDiscount(price: number, actual: number): number {
   return Math.round(((actual - price) / actual) * 100);
 }
  openLoginModal() {
-    this.modalService.open(Login, {
+    this.modalService.open(AuthModalComponent, {
       modalClass: 'modal-dialog-centered'
     });
   }

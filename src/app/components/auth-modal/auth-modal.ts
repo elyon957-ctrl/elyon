@@ -51,7 +51,7 @@ login() {
 
   showPassword: boolean = false;
   isLoading: boolean = false;
-confirmPassword: string = '';
+  confirmPassword: string = '';
   agreeToTerms: boolean = false;
   
   showConfirmPassword: boolean = false;
@@ -66,7 +66,7 @@ confirmPassword: string = '';
 
   async handleSignup(): Promise<void> {
     this.errorMessage = '';
-   await this.authService.register(this.email, this.password, this.name,this.gender)
+   await this.authService.register(this.email, this.password, this.name, this.gender)
     .then(() => {
       this.isLoading = false;
       this.close();                

@@ -62,7 +62,7 @@ setUser(uid:any){
   }
 
 
- async register(email: string, password: string, name: string,gender:string,role?:string) {
+ async register(email: string, password: string, name: string,gender:string) {
     try {
       const result = await createUserWithEmailAndPassword(this.auth, email, password);
       const userData: any = {
@@ -70,7 +70,7 @@ setUser(uid:any){
         name: name,       
         id: result.user.uid,
         gender: gender,       
-        role: role ??  'User'
+        role: 'User'
       }
       this.userDetails = userData;
       localStorage.setItem('user', JSON.stringify(userData))
