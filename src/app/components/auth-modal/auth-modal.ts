@@ -75,7 +75,7 @@ confirmPassword: string = '';
     .catch((err: any) => {
       this.isLoading = false;
       this.errorMessage = err.message;
-      if (!this.name || !this.email || !this.password || !this.confirmPassword) {
+      if (!this.name || !this.email || !this.password || !this.confirmPassword || !this.gender) {
         this.errorMessage = 'Please fill in all fields';
         return;
       }
@@ -99,6 +99,11 @@ confirmPassword: string = '';
         this.errorMessage = 'You must agree to the Terms and Conditions';
         return;
       }
+  
+      if (!this.gender) {
+        this.errorMessage = 'Select your gender';
+        return;
+      }
     });
 
     this.isLoading = true;
@@ -107,8 +112,8 @@ confirmPassword: string = '';
       console.log('Signup attempt:', {
         name: this.name,
         email: this.email,
-        password: '***',
-        gender:this.gender
+        gender:this.gender,
+        password: '***'
       });
       this.isLoading = false;
     }, 1500);
